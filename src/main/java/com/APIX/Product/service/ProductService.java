@@ -1,7 +1,7 @@
-package com.APIX.orders.service;
+package com.APIX.product.service;
 
-import com.APIX.orders.dao.ProductDAO;
-import com.APIX.orders.model.Product;
+import com.APIX.product.dao.ProductDAO;
+import com.APIX.product.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

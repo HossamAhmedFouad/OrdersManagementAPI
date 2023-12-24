@@ -1,4 +1,4 @@
-package com.APIX.orders.dao;
+package com.APIX.product.dao;
 
 import com.APIX.orders.model.Product;
 import org.springframework.stereotype.Repository;

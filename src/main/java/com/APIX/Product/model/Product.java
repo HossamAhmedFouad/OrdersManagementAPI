@@ -1,4 +1,4 @@
-package com.APIX.orders.model;
+package com.APIX.product.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

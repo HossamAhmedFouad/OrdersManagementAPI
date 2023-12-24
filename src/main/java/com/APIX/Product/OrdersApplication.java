@@ -1,4 +1,4 @@
-package com.APIX.orders;
+package com.APIX.product;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

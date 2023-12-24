@@ -1,6 +1,6 @@
-package com.APIX.orders.dao;
+package com.APIX.product.dao;
 
-import com.APIX.orders.model.Product;
+import com.APIX.product.model.Product;
 
 import java.util.List;
 import java.util.UUID;
