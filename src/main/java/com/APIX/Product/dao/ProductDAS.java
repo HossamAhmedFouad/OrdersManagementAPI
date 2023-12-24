@@ -1,6 +1,6 @@
 package com.APIX.product.dao;
 
-import com.APIX.orders.model.Product;
+import com.APIX.product.model.Product;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
