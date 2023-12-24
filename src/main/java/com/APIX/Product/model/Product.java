@@ -15,7 +15,8 @@ public class Product {
     public Product(@JsonProperty("id") UUID serialNumber,
                    @JsonProperty("name") String name,
                    @JsonProperty("vendor") String vendor,
-                   @JsonProperty("category") String category, @JsonProperty("price") double price,
+                   @JsonProperty("category") String category,
+                   @JsonProperty("price") double price,
                    @JsonProperty("count") int count) {
         this.serialNumber = serialNumber;
         this.name = name;
