@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ProductDAO {
-    int insertProduct(UUID id, Product product);
+    boolean insertProduct(Product product);
     List<Product> getProducts();
-    default int insertProduct(Product product){
-        UUID id = UUID.randomUUID();
-        return insertProduct(id, product);
-    }
+    Product getProduct(UUID id);
+    boolean deleteProduct(UUID id);
+    boolean updateProduct(UUID id, Product product);
+
 }
