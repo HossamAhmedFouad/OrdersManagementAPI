@@ -10,14 +10,8 @@ import java.util.List;
 
 @Service
 public class ProductService {
-
-    private final ProductDAO productDAO;
-
     @Autowired
-    public ProductService(@Qualifier("productDAS") ProductDAO productDAO) {
-        this.productDAO = productDAO;
-    }
-
+    private  ProductDAO productDAO;
     public int addProduct(Product product){
         return productDAO.insertProduct(product);
     }
