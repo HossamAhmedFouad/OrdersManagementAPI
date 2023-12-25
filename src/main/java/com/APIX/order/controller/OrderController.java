@@ -11,11 +11,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
+    @Autowired
     private final OrderService orderService;
 
-    @Autowired
+
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
+    }
+
+    @PostMapping("/add")
+    public void addOrder(Order order){
+        orderService.placeOrder(order);
     }
 
     @GetMapping("/{orderId}")
