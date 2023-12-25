@@ -2,18 +2,26 @@ package com.APIX.order.model;
 
 import com.APIX.Product.model.Product;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public abstract class Order {
     private final int id;
     private final List<Product> products;
     private final double shippingFee;
+    private final LocalDateTime orderDateTime;
+
     private String status;
-    public Order(int id, List<Product> products, double shippingFee) {
+    public Order(int id, List<Product> products, double shippingFee, LocalDateTime orderDateTime) {
+
+        if (id <= 0 || products == null || shippingFee < 0) {
+            throw new IllegalArgumentException("Invalid input parameters for order creation.");
+        }
+
         this.id = id;
         this.products = products;
         this.shippingFee = shippingFee;
-        // Set the status to "Placed" by default
+        this.orderDateTime = orderDateTime;
         this.status = "Placed";
     }
     public int getId() {

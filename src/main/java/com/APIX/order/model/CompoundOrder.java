@@ -2,14 +2,15 @@ package com.APIX.order.model;
 
 import com.APIX.Product.model.Product;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CompoundOrder extends Order{
 
     private List<Order> orders = new ArrayList<Order>();
-    public CompoundOrder(int id, List<Product> products, double shippingFee, List<Order> orders) {
-        super(id, products, shippingFee);
+    public CompoundOrder(int id, List<Product> products, double shippingFee, List<Order> orders, LocalDateTime orderDateTime) {
+        super(id, products, shippingFee,orderDateTime);
         this.orders = orders;
     }
     public List<Order> getOrders() {
