@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository("productDAS")
-public class ProductDAS implements ProductDAO{
+public class ProductDAS implements com.APIX.product.dao.ProductDAO {
 
     private static List<Product> db = new ArrayList<>();
     @Override

@@ -14,6 +14,9 @@ public class OrderDAOImpl implements OrderDAO{
         if (order == null) {
             throw new IllegalArgumentException("Order cannot be null.");
         }
+        if (order.getTotalPrice()>order.getUser().getBalance()){
+            throw new IllegalArgumentException("You have not enough balance");
+        }
         orders.add(order);
         return true;
     }

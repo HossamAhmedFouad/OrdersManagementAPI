@@ -2,6 +2,7 @@ package com.APIX.order.model;
 
 
 import com.APIX.product.model.Product;
+import com.APIX.user.model.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,8 +11,8 @@ import java.util.List;
 public class CompoundOrder extends Order{
 
     private List<Order> orders = new ArrayList<Order>();
-    public CompoundOrder(int id, List<Product> products, double shippingFee, List<Order> orders, LocalDateTime orderDateTime) {
-        super(id, products, shippingFee,orderDateTime);
+    public CompoundOrder(int id, List<Product> products, double shippingFee, User user, List<Order> orders, LocalDateTime orderDateTime) {
+        super(id, products, shippingFee,user,orderDateTime);
         this.orders = orders;
     }
     public List<Order> getOrders() {
@@ -31,7 +32,6 @@ public class CompoundOrder extends Order{
         for (Order order : getOrders()) {
             totalPrice += order.getTotalPrice();
         }
-        totalPrice += getShippingFee();
         return totalPrice;
     }
     public void printDetails() {

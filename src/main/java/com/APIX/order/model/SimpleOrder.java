@@ -3,13 +3,14 @@ package com.APIX.order.model;
 
 
 import com.APIX.product.model.Product;
+import com.APIX.user.model.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class SimpleOrder extends Order{
-    public SimpleOrder(int id, List<Product> products, double shippingFee, LocalDateTime orderDateTime) {
-        super(id, products, shippingFee,orderDateTime);
+    public SimpleOrder(int id, List<Product> products, double shippingFee, User user, LocalDateTime orderDateTime) {
+        super(id, products, shippingFee,user,orderDateTime);
     }
     public double getTotalPrice() {
         double totalPrice = 0;
