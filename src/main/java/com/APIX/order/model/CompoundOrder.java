@@ -1,6 +1,7 @@
 package com.APIX.order.model;
 
-import com.APIX.Product.model.Product;
+
+import com.APIX.product.model.Product;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
