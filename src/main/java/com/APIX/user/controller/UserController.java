@@ -1,6 +1,4 @@
 package com.APIX.user.controller;
-
-import com.APIX.product.model.Product;
 import com.APIX.user.model.User;
 import com.APIX.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

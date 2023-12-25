@@ -32,37 +32,41 @@ public class UserDAS implements UserDAO{
 
     @Override
     public boolean removeUserById(long id) {
-        for (User usr:db) {
-            if(usr.getId()==id){
-                db.remove(usr);
-                return true;
-            }
+        User user=findUserById(id);
+        if(user!=null){
+            db.remove(user);
+            return true;
         }
         return false;
     }
 
     @Override
     public User getUserById(long id) {
-        for (User oldUser:db) {
-            if (oldUser.getId()==id) {
-                return oldUser;
-            }
-        }
-        return null;
+        return findUserById(id);
+
     }
 
     @Override
-    public User updateUser(long id , User user) {
+    public User updateUser(long id , User updatedUser) {
         for (User usr:db
              ) {
-            if(usr.getId()==id){
-                usr.setBalance(user.getBalance());
-                usr.setEmail(user.getEmail());
-                usr.setUsername(user.getUsername());
-                usr.setPassword(user.getPassword());
-                return usr;
+            if(Objects.equals(usr.getUsername(), updatedUser.getUsername())){
+                return null;
             }
 
+        }
+        User user=findUserById(id);
+        user.setBalance(updatedUser.getBalance());
+        user.setEmail(updatedUser.getEmail());
+        user.setUsername(updatedUser.getUsername());
+        user.setPassword(updatedUser.getPassword());
+        return user;
+    }
+    private User findUserById(long id) {
+        for (User user : db) {
+            if (user.getId() == id) {
+                return user;
+            }
         }
         return null;
     }
