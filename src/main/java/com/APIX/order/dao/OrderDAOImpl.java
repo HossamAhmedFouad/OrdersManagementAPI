@@ -1,10 +1,11 @@
 package com.APIX.order.dao;
 
 import com.APIX.order.model.Order;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Repository("OrderDAOImpl")
 public class OrderDAOImpl implements OrderDAO{
     private List<Order> orders = new ArrayList<>();
 
