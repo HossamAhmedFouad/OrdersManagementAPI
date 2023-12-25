@@ -18,7 +18,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void placeOrder(Order order) {
-        orderDAO.save(order);
+        if (orderDAO.save(order)){
+            System.out.println("Saved order successfully\n");
+        }
     }
 
     @Override
