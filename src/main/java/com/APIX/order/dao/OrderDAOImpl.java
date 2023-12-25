@@ -10,11 +10,12 @@ public class OrderDAOImpl implements OrderDAO{
     private List<Order> orders = new ArrayList<>();
 
     @Override
-    public void save(Order order) {
+    public boolean save(Order order) {
         if (order == null) {
             throw new IllegalArgumentException("Order cannot be null.");
         }
         orders.add(order);
+        return true;
     }
 
     @Override

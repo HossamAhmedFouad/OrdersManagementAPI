@@ -5,7 +5,7 @@ import com.APIX.order.model.Order;
 import java.util.List;
 
 public interface OrderDAO {
-    void save(Order order);
+    boolean save(Order order);
 
     Order getById(int orderId);
 
