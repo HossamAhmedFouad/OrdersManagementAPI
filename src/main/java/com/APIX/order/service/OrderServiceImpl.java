@@ -1,6 +1,6 @@
 package com.APIX.order.service;
 
-import com.APIX.order.dao.OrderDAO;
+import com.APIX.CustomRepository;
 import com.APIX.order.model.CompoundOrder;
 import com.APIX.order.model.Order;
 import com.APIX.payment.service.PaymentService;
@@ -11,13 +11,11 @@ import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
-    @Autowired
-    private final OrderDAO orderDAO;
-
-    @Autowired
+    private final CustomRepository<Order, Integer> orderDAO;
     private final PaymentService paymentService;
 
-    public OrderServiceImpl(OrderDAO orderDAO, PaymentService paymentService) {
+    @Autowired
+    public OrderServiceImpl(CustomRepository<Order, Integer> orderDAO, PaymentService paymentService) {
         this.orderDAO = orderDAO;
         this.paymentService = paymentService;
     }
