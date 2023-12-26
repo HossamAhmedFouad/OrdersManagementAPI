@@ -7,6 +7,8 @@ import java.util.Locale;
 
 public class Notification {
 
+    static Long nextID = 1L;
+    Long id;
     String notificationLanguage;
     String notificationText;
     String notificationType; //TODO: implement Enum Classes instead of strings for Type and language
@@ -15,12 +17,21 @@ public class Notification {
     List<String> params;
 
 
-    public Notification(String notificationLanguage, String notificationText, String notificationType, List<String> params) {
+    public Notification(Long id, String notificationLanguage, String notificationText, String notificationType, List<String> params) {
+        this.id = id;
         this.notificationLanguage = notificationLanguage;
         this.notificationText = notificationText;
         this.notificationType = notificationType;
         this.params = params;
         this.dateTime = LocalDateTime.now();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNotificationLanguage() {
