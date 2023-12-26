@@ -11,16 +11,19 @@ public class User {
     private String email;
     private String password;
     private double balance;
+    private String adress;
 
     public User(
                 @JsonProperty("username") String username,
                 @JsonProperty("email") String email,
                 @JsonProperty("password") String password,
-                @JsonProperty("balance") double balance) {
+                @JsonProperty("balance") double balance,
+                @JsonProperty("adress") String adress) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.balance=balance;
+        this.adress=adress;
     }
 
 
@@ -64,5 +67,12 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
     }
 }
