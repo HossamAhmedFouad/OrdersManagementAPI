@@ -5,20 +5,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
 
 public class Product {
-    private UUID serialNumber;
+
+    private static Long nextId = 1L;
+    private Long id;
     private String name;
     private String vendor;
     private String Category; //TODO: change string into ENUM
     private double price;
     private int count;
 
-    public Product(@JsonProperty("id") UUID serialNumber,
+    public Product(
                    @JsonProperty("name") String name,
                    @JsonProperty("vendor") String vendor,
                    @JsonProperty("category") String category,
                    @JsonProperty("price") double price,
                    @JsonProperty("count") int count) {
-        this.serialNumber = serialNumber;
+        this.id = nextId++;
         this.name = name;
         this.vendor = vendor;
         Category = category;
@@ -26,12 +28,12 @@ public class Product {
         this.count = count;
     }
 
-    public UUID getSerialNumber() {
-        return serialNumber;
+    public Long getId() {
+        return id;
     }
 
-    public void setSerialNumber(UUID serialNumber) {
-        this.serialNumber = serialNumber;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

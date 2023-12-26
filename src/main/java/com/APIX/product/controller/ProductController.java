@@ -36,7 +36,7 @@ public class ProductController {
 
 
     @GetMapping(path = "{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable("id") UUID id) {
+    public ResponseEntity<Product> getProduct(@PathVariable("id") Long id) {
         Product product = productService.getProduct(id);
         if (product != null) {
             return ResponseEntity.ok(product);
@@ -47,7 +47,7 @@ public class ProductController {
 
 
     @DeleteMapping(path = "{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable("id") UUID id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id) {
         boolean deleted = productService.deleteProduct(id);
         if (deleted) {
             return ResponseEntity.noContent().build();
@@ -57,8 +57,8 @@ public class ProductController {
     }
 
     @PutMapping(path = "{id}")
-    public ResponseEntity<Void> updateProduct(@PathVariable("id") UUID id, @RequestBody Product product) {
-        boolean updated = productService.updateProduct(id, product);
+    public ResponseEntity<Void> updateProduct(@RequestBody Product product) {
+        boolean updated = productService.updateProduct(product);
         if (updated) {
             return ResponseEntity.noContent().build();
         } else {
