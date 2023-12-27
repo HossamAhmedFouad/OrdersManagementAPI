@@ -1,34 +1,33 @@
 package com.APIX.product.service;
 
-import com.APIX.product.dao.ProductDAO;
+import com.APIX.CustomRepository;
 import com.APIX.product.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ProductService {
     @Autowired
-    private  ProductDAO productDAO;
+    private CustomRepository<Product, Long> productDAO;
     public boolean addProduct(Product product){
-        return productDAO.insertProduct(product);
+        return productDAO.save(product);
     }
 
     public List<Product> getProducts(){
-        return productDAO.getProducts();
+        return productDAO.getAll();
     }
 
-    public Product getProduct(UUID id){
-        return productDAO.getProduct(id);
+    public Product getProduct(Long id){
+        return productDAO.getById(id);
     }
 
-    public boolean deleteProduct(UUID id){
-        return productDAO.deleteProduct(id);
+    public boolean deleteProduct(Long id){
+        return productDAO.delete(id);
     }
 
-    public boolean updateProduct(UUID id, Product product){
-        return productDAO.updateProduct(id, product);
+    public boolean updateProduct(Product product){
+        return productDAO.update(product);
     }
 }
