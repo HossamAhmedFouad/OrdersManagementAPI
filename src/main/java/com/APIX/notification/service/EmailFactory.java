@@ -4,9 +4,6 @@ import com.APIX.notification.model.Notification;
 import com.APIX.order.model.Order;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-
 public class EmailFactory extends NotificationFactory {
 
     EmailFactory(){
