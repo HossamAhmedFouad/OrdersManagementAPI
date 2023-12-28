@@ -4,29 +4,29 @@ import com.APIX.CustomRepository;
 import com.APIX.order.model.CompoundOrder;
 import com.APIX.order.model.Order;
 import com.APIX.order.model.SimpleOrder;
+import com.APIX.order.service.OrderService;
+import com.APIX.product.model.Product;
+import com.APIX.product.service.ProductService;
 import com.APIX.user.model.User;
 
 public abstract class OrderManager {
-    protected CustomRepository<Order, Integer> orderDAO;
-    public static OrderManager createManager(Order order, CustomRepository orderDAO){
+;
+    public static OrderManager createManager(Order order){
+
         if(order instanceof SimpleOrder){
-            return new SimpleOrderManager(orderDAO);
+            return new SimpleOrderManager();
         }else if(order instanceof CompoundOrder){
-            return new CompoundOrderManager(orderDAO);
+            return new CompoundOrderManager();
         }
         return null;
     }
     public abstract boolean placeOrder(Order order);
     public abstract boolean cancel(Order order);
-    protected boolean validate(Order order){
-        User user=order.getUser();
-        if(user.getBalance()>=order.getTotalPrice()+order.getShippingFee()){
-            return true;
-        }
-        return true;
-    };
+
     protected void notify(Order order){
-        return;
+        //send notifications
+        //1 -> Email
+        //2 -> SMS
     };
 
 

@@ -27,13 +27,12 @@ public class ProductDAS implements CustomRepository<Product, Long> {
             return false;
         }
 
-        UUID id = UUID.randomUUID();
-        db.add(new Product(
-                product.getName(),
-                product.getVendor(),
-                product.getCategory(),
-                product.getPrice(),
-                product.getCount()));
+        Product searchProduct = getById(product.getId());
+        if(searchProduct != null){
+            return false;
+        }
+
+        db.add(product);
         return true;
     }
 

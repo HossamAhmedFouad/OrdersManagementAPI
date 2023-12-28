@@ -3,7 +3,9 @@ package com.APIX.payment.service;
 import com.APIX.order.model.Order;
 
 public interface PaymentService {
-    boolean checkBalance(Order order);
+    boolean checkBalance(Long id, double totalPrice, double shippingFee);
 
-    void payOrder(Order order);
+    boolean payOrder(Long id, double totalPrice, double shippingFee);
+
+//    boolean refund();
 }

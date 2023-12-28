@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
 
 public class Product {
-
-    private static Long nextId = 1L;
     private Long id;
     private String name;
     private String vendor;
@@ -15,12 +13,13 @@ public class Product {
     private int count;
 
     public Product(
+                   @JsonProperty("id") Long id,
                    @JsonProperty("name") String name,
                    @JsonProperty("vendor") String vendor,
                    @JsonProperty("category") String category,
                    @JsonProperty("price") double price,
                    @JsonProperty("count") int count) {
-        this.id = nextId++;
+        this.id = id;
         this.name = name;
         this.vendor = vendor;
         Category = category;

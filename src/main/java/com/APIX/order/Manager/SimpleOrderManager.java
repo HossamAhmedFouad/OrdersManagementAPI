@@ -2,21 +2,29 @@ package com.APIX.order.Manager;
 
 import com.APIX.CustomRepository;
 import com.APIX.order.model.Order;
+import com.APIX.order.service.OrderService;
+import com.APIX.payment.service.OrderPayment;
+import com.APIX.payment.service.PaymentService;
 import com.APIX.product.model.Product;
+import com.APIX.product.service.ProductService;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class SimpleOrderManager extends OrderManager {
-    public SimpleOrderManager(CustomRepository orderDAO) {
-        this.orderDAO=orderDAO;
-    }
+
 
     @Override
     public boolean placeOrder(Order order) {
-        if(validate(order)){
-            for (Product product:order.getProducts()){
-                //reduce the count of the products from the database
+        PaymentService paymentService = new OrderPayment();
+        if(paymentService.payOrder(order.getUser().getId(), order.getTotalPrice(), order.getShippingFee())){
+            for(Product product : order.getProducts()){
+
+                if(!ProductService.decrementProduct(product.getId(), 1)){
+                    return false;
+                }
             }
-            //reduce the balance
-            orderDAO.save(order);
+
             return true;
         }
         return false;
@@ -24,9 +32,9 @@ public class SimpleOrderManager extends OrderManager {
 
     @Override
     public boolean cancel(Order order) {
-        //step 1 recover the count of the product
-        //step 2 recover the money to there friends
-        // step3 change the status of the order
-            return false;
+//        Duration duration = Duration.between(LocalDateTime.now(), order.getOrderDateTime());
+//        long diffInMinutes = duration.toMinutes();
+//        if(diffInMinutes > 1) return false;
+        return false;
     }
 }

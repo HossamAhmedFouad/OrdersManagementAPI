@@ -16,7 +16,7 @@ public abstract class Order {
     private final LocalDateTime orderDateTime;
 
     private String status;
-    public Order(int id, List<Product> products, double shippingFee, User user, LocalDateTime orderDateTime) {
+    public Order(int id, List<Product> products, double shippingFee, User user) {
 
 
         if (id <= 0 || products == null || shippingFee < 0) {
@@ -27,7 +27,7 @@ public abstract class Order {
         this.products = products;
         this.shippingFee = shippingFee;
         this.user = user;
-        this.orderDateTime = orderDateTime;
+        this.orderDateTime = LocalDateTime.now();
         this.status = "Placed";
     }
     public User getUser() {
@@ -40,7 +40,7 @@ public abstract class Order {
         return products;
     }
     public double getShippingFee() {
-        return 4;
+        return getTotalPrice() / 10;
     }
     public String getStatus() {
         return status;
@@ -56,4 +56,7 @@ public abstract class Order {
         return totalPrice;
     }
 
+    public LocalDateTime getOrderDateTime() {
+        return orderDateTime;
+    }
 }

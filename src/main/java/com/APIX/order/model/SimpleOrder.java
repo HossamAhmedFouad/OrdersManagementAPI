@@ -9,17 +9,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class SimpleOrder extends Order{
-    public SimpleOrder(int id, List<Product> products, double shippingFee, User user, LocalDateTime orderDateTime) {
-        super(id, products, shippingFee,user,orderDateTime);
+    public SimpleOrder(int id, List<Product> products, double shippingFee, User user) {
+        super(id, products, shippingFee,user);
     }
-    public double getTotalPrice() {
-        double totalPrice = 0;
-        for (Product product : getProducts()) {
-            totalPrice += product.getPrice();
-        }
-        totalPrice += getShippingFee();
-        return totalPrice;
-    }
+
     public void printDetails() {
         System.out.println("This order has id " + getId() + " and status " + getStatus() + ".");
         System.out.println("This order contains " + getProducts().size() + " products.");

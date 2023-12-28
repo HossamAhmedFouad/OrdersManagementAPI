@@ -11,8 +11,8 @@ import java.util.List;
 public class CompoundOrder extends Order{
 
     private List<SimpleOrder> orders = new ArrayList<>();
-    public CompoundOrder(int id, List<Product> products, double shippingFee, User user, List<SimpleOrder> orders, LocalDateTime orderDateTime) {
-        super(id, products, shippingFee,user,orderDateTime);
+    public CompoundOrder(int id, List<Product> products, double shippingFee, User user, List<SimpleOrder> orders) {
+        super(id, products, shippingFee,user);
         this.orders = orders;
     }
     public List<SimpleOrder> getOrders() {

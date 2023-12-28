@@ -10,41 +10,41 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class OrderServiceImpl {
+public class OrderService {
     @Autowired
-    private  CustomRepository<Order, Integer> orderDAO;
+    private static CustomRepository<Order, Integer> orderDAO;
 
 
 
-    public void placeOrder(Order order) {
-        OrderManager orderManager=OrderManager.createManager(order,orderDAO);
+    public static void placeOrder(Order order) {
+        OrderManager orderManager= OrderManager.createManager(order);
         orderManager.placeOrder(order);
 
     }
 
 
-    public void cancelOrder(Order order) {
-        OrderManager orderManager=OrderManager.createManager(order,orderDAO);
+    public static void cancelOrder(Order order) {
+        OrderManager orderManager=OrderManager.createManager(order);
         orderManager.cancel(order);
     }
 
 
-    public Order getOrderById(int orderId) {
+    public static Order getOrderById(int orderId) {
         return orderDAO.getById(orderId);
     }
 
 
-    public List<Order> getAllOrders() {
+    public static List<Order> getAllOrders() {
         return orderDAO.getAll();
     }
 
 
-    public void updateOrder(Order order) {
+    public static void updateOrder(Order order) {
         orderDAO.update(order);
     }
 
 
-    public void deleteOrder(int orderId) {
+    public static void deleteOrder(int orderId) {
         orderDAO.delete(orderId);
     }
 }

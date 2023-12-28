@@ -11,26 +11,26 @@ import java.util.Objects;
 @Service
 public class UserService {
     @Autowired
-    UserDAO userDAO;
-    public boolean addUser(User user) {
+    static UserDAO userDAO;
+    public static boolean addUser(User user) {
         return userDAO.addUser(user);
     }
 
 
-    public List<User> getUsers() {
+    public static List<User> getUsers() {
         return userDAO.getUsers();
     }
 
 
-    public boolean removeUserById(long id) {
+    public static boolean removeUserById(long id) {
         return userDAO.removeUserById(id);
     }
 
-    public User getUserById(long id) {
+    public static User getUserById(long id) {
         return userDAO.getUserById(id);
     }
 
-    public User updateUser(long id , User user) {
+    public static User updateUser(long id , User user) {
         return userDAO.updateUser(id,user);
 
     }
