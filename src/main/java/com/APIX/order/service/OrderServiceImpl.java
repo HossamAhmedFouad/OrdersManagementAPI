@@ -1,7 +1,7 @@
 package com.APIX.order.service;
 
 import com.APIX.CustomRepository;
-import com.APIX.order.model.CompoundOrder;
+import com.APIX.order.Manager.OrderManager;
 import com.APIX.order.model.Order;
 
 import org.springframework.beans.factory.annotation.Autowired;

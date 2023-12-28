@@ -1,4 +1,4 @@
-package com.APIX.notification.service;
+package com.APIX.notification.Factory;
 
 import com.APIX.notification.model.Notification;
 import com.APIX.order.model.Order;

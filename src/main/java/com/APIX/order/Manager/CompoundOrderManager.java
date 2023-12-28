@@ -1,7 +1,6 @@
-package com.APIX.order.service;
+package com.APIX.order.Manager;
 
 import com.APIX.CustomRepository;
-import com.APIX.order.dao.OrderDAOImpl;
 import com.APIX.order.model.Order;
 
 public class CompoundOrderManager extends OrderManager {

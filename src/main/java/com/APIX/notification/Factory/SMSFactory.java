@@ -1,21 +1,22 @@
-package com.APIX.notification.service;
+package com.APIX.notification.Factory;
 
+import com.APIX.notification.Factory.NotificationFactory;
 import com.APIX.notification.model.Notification;
 import com.APIX.order.model.Order;
 
 import java.time.LocalDateTime;
-public class EmailFactory extends NotificationFactory {
 
-    EmailFactory(){
-        placementLang.put("ENG", "Dear %s, your order #%d has been processed on %s");
-        placementLang.put("AR", "عزيزي %s، تم معالجة طلبك رقم #%d في تاريخ %s.");
+public class SMSFactory extends NotificationFactory {
 
-        shipmentLang.put("ENG", "Dear %s, your order #%d has been shipped on %s.");
-        shipmentLang.put("AR", "عزيزي %s، تم شحن طلبك رقم #%d في تاريخ %s.");
+    SMSFactory(){
+        placementLang.put("ENG", "Dear %s, your order #%d has been placed on %s.");
+        placementLang.put("AR", "عزيزي %s، تم تقديم طلبك #%d في %s.");
 
-        cancellationLang.put("ENG", "Dear %s, your order #%d has been canceled as of %s.");
-        cancellationLang.put("AR", "عزيزي %s، تم إلغاء طلبك رقم #%d اعتبارًا من %s.");
+        shipmentLang.put("ENG", "Hello %s, your order #%d has been shipped on %s");
+        shipmentLang.put("AR", "مرحبًا %s، تم شحن طلبك #%d في %s.");
 
+        cancellationLang.put("ENG", "Hi %s, your order #%d has been canceled on %s.");
+        cancellationLang.put("AR", "مرحبًا %s، تم إلغاء طلبك #%d في %s.");
     }
 
     @Override
@@ -30,7 +31,6 @@ public class EmailFactory extends NotificationFactory {
         notificationText = shipmentLang.get(lang);
         notificationText = fillPlaceholders(notificationText, order.getUser().getUsername(), order.getId(), LocalDateTime.now());
         return new Notification(lang, notificationText, "SHIPMENT");
-
     }
 
     @Override

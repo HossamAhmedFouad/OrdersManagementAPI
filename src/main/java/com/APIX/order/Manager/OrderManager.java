@@ -1,15 +1,10 @@
-package com.APIX.order.service;
+package com.APIX.order.Manager;
 
 import com.APIX.CustomRepository;
-import com.APIX.order.dao.OrderDAOImpl;
 import com.APIX.order.model.CompoundOrder;
 import com.APIX.order.model.Order;
 import com.APIX.order.model.SimpleOrder;
 import com.APIX.user.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 public abstract class OrderManager {
     protected CustomRepository<Order, Integer> orderDAO;
