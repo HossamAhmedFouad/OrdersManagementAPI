@@ -1,9 +1,8 @@
 package com.APIX.notification.model;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Locale;
+
 
 public class Notification {
 
@@ -12,17 +11,14 @@ public class Notification {
     String notificationLanguage;
     String notificationText;
     String notificationType; //TODO: implement Enum Classes instead of strings for Type and language
-
     LocalDateTime dateTime;
-    List<String> params;
 
 
-    public Notification(Long id, String notificationLanguage, String notificationText, String notificationType, List<String> params) {
-        this.id = id;
+    public Notification(String notificationLanguage, String notificationText, String notificationType) {
+        this.id = nextID++;
         this.notificationLanguage = notificationLanguage;
         this.notificationText = notificationText;
         this.notificationType = notificationType;
-        this.params = params;
         this.dateTime = LocalDateTime.now();
     }
 
@@ -66,11 +62,4 @@ public class Notification {
         this.dateTime = dateTime;
     }
 
-    public List<String> getParams() {
-        return params;
-    }
-
-    public void setParams(List<String> params) {
-        this.params = params;
-    }
 }

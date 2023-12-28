@@ -3,20 +3,21 @@ package com.APIX.notification.service;
 import com.APIX.notification.model.Notification;
 import com.APIX.order.model.Order;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class NotificationFactory {
-    /**
-     * Map ACTION => Template
-     * Template => Language
-     *
-     *
-     * Map<Action, List<String>>myMap
-     *
-     * myMap[ORDER_PLACEMENT] => List<String>orderPlacementTemplates
-     * ENG
-     *
-     */
+
+    Map<String, String> placementLang = new HashMap<>();
+    Map<String, String>shipmentLang = new HashMap<>();
+    Map<String, String>cancellationLang = new HashMap<>();
+    String notificationText;
+
     abstract Notification createPlacementTemplate(String lang, Order order);
-    abstract Notification createShipmentTemplate(String lang);
-    abstract Notification createCancellationTemplate(String lang);
+    abstract Notification createShipmentTemplate(String lang, Order order);
+    abstract Notification createCancellationTemplate(String lang, Order order);
+    public static String fillPlaceholders(String template, Object... args) {
+        return String.format(template, args);
+    }
 
 }

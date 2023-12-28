@@ -3,14 +3,8 @@ package com.APIX.notification.service;
 import com.APIX.notification.model.Notification;
 import com.APIX.order.model.Order;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import java.time.LocalDateTime;
 public class EmailFactory extends NotificationFactory {
-
-    Map<String, String>placementLang = new HashMap<>();
-    Map<String, String>shipmentLang = new HashMap<>();
-    Map<String, String>cancellationLang = new HashMap<>();
 
     EmailFactory(){
         placementLang.put("ENG", "Dear %s, your order #%d has been processed on %s");
@@ -26,17 +20,23 @@ public class EmailFactory extends NotificationFactory {
 
     @Override
     Notification createPlacementTemplate(String lang, Order order) {
-
-        return null;
+        notificationText = placementLang.get(lang);
+        notificationText = fillPlaceholders(notificationText, order.getUser().getUsername(), order.getId(), LocalDateTime.now());
+        return new Notification(lang, notificationText, "PLACEMENT");
     }
 
     @Override
-    Notification createShipmentTemplate(String lang) {
-        return null;
+    Notification createShipmentTemplate(String lang, Order order) {
+        notificationText = shipmentLang.get(lang);
+        notificationText = fillPlaceholders(notificationText, order.getUser().getUsername(), order.getId(), LocalDateTime.now());
+        return new Notification(lang, notificationText, "SHIPMENT");
+
     }
 
     @Override
-    Notification createCancellationTemplate(String lang) {
-        return null;
+    Notification createCancellationTemplate(String lang, Order order) {
+        notificationText = cancellationLang.get(lang);
+        notificationText = fillPlaceholders(notificationText, order.getUser().getUsername(), order.getId(), LocalDateTime.now());
+        return new Notification(lang, notificationText, "CANCELLATION");
     }
 }

@@ -2,12 +2,14 @@ package com.APIX.notification.dao;
 
 import com.APIX.CustomRepository;
 import com.APIX.notification.model.Notification;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+@Repository("notificationDAS")
 public class NotificationsDAS implements CustomRepository<Notification, Long> {
     List<Notification> notificationDB = new ArrayList<>();
 
