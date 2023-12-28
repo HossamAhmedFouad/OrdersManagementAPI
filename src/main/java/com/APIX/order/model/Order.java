@@ -12,9 +12,6 @@ public abstract class Order {
     private final int id;
     private final List<Product> products;
     private final double shippingFee;
-
-
-
     private final User user;
     private final LocalDateTime orderDateTime;
 
@@ -43,7 +40,7 @@ public abstract class Order {
         return products;
     }
     public double getShippingFee() {
-        return shippingFee;
+        return 4;
     }
     public String getStatus() {
         return status;
@@ -51,7 +48,12 @@ public abstract class Order {
     public void setStatus(String status) {
         this.status = status;
     }
-    public abstract double getTotalPrice();
-    public abstract void printDetails();
+    public double getTotalPrice() {
+        double totalPrice = 0;
+        for (Product product : getProducts()) {
+            totalPrice += product.getPrice();
+        }
+        return totalPrice;
+    }
 
 }
