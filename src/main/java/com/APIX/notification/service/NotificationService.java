@@ -11,25 +11,25 @@ import java.util.List;
 @Service
 public class NotificationService {
     @Autowired
-    private NotificationsDAS notificationDas;
+    private static NotificationsDAS notificationDas;
 
-    public boolean addNotification(Notification notification){
+    public static boolean addNotification(Notification notification){
         return notificationDas.save(notification);
     }
 
-    public List<Notification> getNotifications(){
+    public static List<Notification> getNotifications(){
         return notificationDas.getAll();
     }
 
-    public Notification getNotification(Long id){
+    public static Notification getNotification(Long id){
         return notificationDas.getById(id);
     }
 
-    public boolean deleteNotification(Long id){
+    public static boolean deleteNotification(Long id){
         return notificationDas.delete(id);
     }
 
-    public boolean updateNotification(Notification notification){
+    public static boolean updateNotification(Notification notification){
         return notificationDas.update(notification);
     }
 }

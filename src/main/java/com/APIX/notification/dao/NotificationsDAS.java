@@ -16,7 +16,7 @@ public class NotificationsDAS implements CustomRepository<Notification, Long> {
     Queue<Notification> notificationsQueue = new LinkedList<>();
 
     @Override
-    public Notification getById(Long id) {
+    public  Notification getById(Long id) {
         for(Notification notification : notificationDB){
             if(notification.getId().equals(id)){
                 return notification;

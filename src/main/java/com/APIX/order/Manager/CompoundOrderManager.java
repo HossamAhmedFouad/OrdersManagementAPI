@@ -9,11 +9,9 @@ import com.APIX.payment.service.OrderPayment;
 import com.APIX.payment.service.PaymentService;
 import com.APIX.product.model.Product;
 import com.APIX.product.service.ProductService;
-import com.APIX.user.model.User;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 public class CompoundOrderManager extends OrderManager {
     PaymentService paymentService = new OrderPayment();

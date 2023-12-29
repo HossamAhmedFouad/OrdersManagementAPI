@@ -1,6 +1,4 @@
 package com.APIX.order.Manager;
-
-import com.APIX.CustomRepository;
 import com.APIX.order.model.Order;
 import com.APIX.order.model.OrderState;
 import com.APIX.order.service.OrderService;
@@ -14,6 +12,7 @@ import java.time.LocalDateTime;
 
 public class SimpleOrderManager extends OrderManager {
 
+
     PaymentService paymentService = new OrderPayment();
     @Override
     public boolean placeOrder(Order order) {
@@ -24,7 +23,7 @@ public class SimpleOrderManager extends OrderManager {
                     return false;
                 }
             }
-
+            notifyObservers("ENG",order);
             return OrderService.saveOrder(order);
         }
         return false;
@@ -37,6 +36,7 @@ public class SimpleOrderManager extends OrderManager {
             OrderService.updateOrder(order);
             paymentService.refund(order.getUser().getId(), order.getTotalPrice());
             //Send notification for cancellation
+            notifyObservers("ENG",order);
             return true;
         }
 
@@ -65,6 +65,7 @@ public class SimpleOrderManager extends OrderManager {
                 order.setStatus(OrderState.SHIPPED);
                 order.setOrderDateTime(LocalDateTime.now());
                 OrderService.updateOrder(order);
+                notifyObservers("ENG",order);
                 return true;
             } else return false;
         }

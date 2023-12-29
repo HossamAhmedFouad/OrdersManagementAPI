@@ -2,7 +2,6 @@ package com.APIX.product.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.UUID;
 
 public class Product {
     private Long id;

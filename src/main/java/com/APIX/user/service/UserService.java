@@ -1,10 +1,7 @@
 package com.APIX.user.service;
 
-import com.APIX.CustomRepository;
-import com.APIX.product.model.Product;
-import com.APIX.product.service.ProductService;
+
 import com.APIX.user.dao.UserDAO;
-import com.APIX.user.dao.UserDAS;
 import com.APIX.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

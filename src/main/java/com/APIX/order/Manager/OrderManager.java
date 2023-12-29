@@ -1,15 +1,13 @@
 package com.APIX.order.Manager;
-
-import com.APIX.CustomRepository;
-import com.APIX.order.model.CompoundOrder;
+import com.APIX.ObserverPattern.Observer;
+import com.APIX.notification.Factory.NotificationFactory;
 import com.APIX.order.model.Order;
 import com.APIX.order.model.SimpleOrder;
-import com.APIX.order.service.OrderService;
-import com.APIX.product.model.Product;
-import com.APIX.product.service.ProductService;
-import com.APIX.user.model.User;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class OrderManager {
+    protected List<NotificationFactory>notificationObservers=new ArrayList<>();
     public static OrderManager createManager(Order order){
 
         if(order instanceof SimpleOrder){
@@ -23,11 +21,25 @@ public abstract class OrderManager {
     public abstract boolean cancel(Order order);
     public abstract boolean shipOrder(Order order);
 
-    protected void notify(Order order){
-        //send notifications
-        //1 -> Email
-        //2 -> SMS
+//    protected void notify(Order order){
+//        //send notifications
+//        //1 -> Email
+//        //2 -> SMS
+//    };
+    void addObserver(NotificationFactory observer){
+        notificationObservers.add(observer);
     };
+    void removeObserver(Observer observer){
+        notificationObservers.remove(observer);
+    };
+    void notifyObservers(String language, Order order){
+        for(NotificationFactory obs:notificationObservers){
+            obs.notify(language,order);
+        }
+    };
+    void setNotificationObservers(List<NotificationFactory>observers){
+        this.notificationObservers=observers;
+    }
 
 
 

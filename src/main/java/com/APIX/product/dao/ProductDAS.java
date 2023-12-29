@@ -3,10 +3,9 @@ package com.APIX.product.dao;
 import com.APIX.CustomRepository;
 import com.APIX.product.model.Product;
 import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
 
 @Repository("productDAS")
 public class ProductDAS implements CustomRepository<Product, Long> {

@@ -1,9 +1,7 @@
 package com.APIX.notification.Factory;
 
-import com.APIX.notification.Factory.NotificationFactory;
 import com.APIX.notification.model.Notification;
 import com.APIX.order.model.Order;
-
 import java.time.LocalDateTime;
 
 public class SMSFactory extends NotificationFactory {
@@ -39,4 +37,7 @@ public class SMSFactory extends NotificationFactory {
         notificationText = fillPlaceholders(notificationText, order.getUser().getUsername(), order.getId(), LocalDateTime.now());
         return new Notification(lang, notificationText, "CANCELLATION");
     }
+
+
+
 }
