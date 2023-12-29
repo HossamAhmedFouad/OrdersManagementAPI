@@ -1,5 +1,8 @@
 package com.APIX.user.service;
 
+import com.APIX.CustomRepository;
+import com.APIX.product.model.Product;
+import com.APIX.product.service.ProductService;
 import com.APIX.user.dao.UserDAO;
 import com.APIX.user.dao.UserDAS;
 import com.APIX.user.model.User;
@@ -10,8 +13,12 @@ import java.util.List;
 import java.util.Objects;
 @Service
 public class UserService {
-    @Autowired
+
     static UserDAO userDAO;
+    @Autowired
+    public UserService( UserDAO userDAO) {
+        UserService.userDAO = userDAO;
+    }
     public static boolean addUser(User user) {
         return userDAO.addUser(user);
     }

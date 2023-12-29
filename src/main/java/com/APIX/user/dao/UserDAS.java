@@ -1,4 +1,5 @@
 package com.APIX.user.dao;
+import com.APIX.product.model.Product;
 import com.APIX.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,17 @@ import java.util.Objects;
 @Repository("UserDAS")
 public class UserDAS implements UserDAO{
     private static List<User> db = new ArrayList<>();
+    static {
+        initDummyData();
+    }
+
+    private static void initDummyData() {
+        User dummyProduct1 = new User("john", "john@gmail.com", "123456789", 1000, "helwan");
+        User dummyProduct2 = new User("adbo", "abdo@gmail.com", "123456789", 2000, "maadi");
+
+        db.add(dummyProduct1);
+        db.add(dummyProduct2);
+    }
     long id=0;
     @Override
     public boolean addUser(User user) {
