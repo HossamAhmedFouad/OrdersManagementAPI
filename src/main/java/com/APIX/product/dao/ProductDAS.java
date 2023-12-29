@@ -11,6 +11,19 @@ import java.util.UUID;
 @Repository("productDAS")
 public class ProductDAS implements CustomRepository<Product, Long> {
     private static List<Product> db = new ArrayList<>();
+    
+    static {
+        initDummyData();
+    }
+
+    private static void initDummyData() {
+        Product dummyProduct1 = new Product(1L, "Dummy Product 1", "Vendor 1", "Electronics", 99.99, 10);
+        Product dummyProduct2 = new Product(2L, "Dummy Product 2", "Vendor 2", "Clothing", 49.99, 20);
+
+        db.add(dummyProduct1);
+        db.add(dummyProduct2);
+    }
+    
     @Override
     public Product getById(Long id) {
         for(Product product : db){

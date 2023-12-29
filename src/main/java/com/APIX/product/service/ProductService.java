@@ -9,8 +9,12 @@ import java.util.List;
 
 @Service
 public class ProductService {
-    @Autowired
+
     private static CustomRepository<Product, Long> productDAO;
+    @Autowired
+    public ProductService(CustomRepository<Product, Long> productDAO) {
+        ProductService.productDAO = productDAO;
+    }
     public static boolean addProduct(Product product){
         return productDAO.save(product);
     }
