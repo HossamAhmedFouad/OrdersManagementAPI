@@ -14,10 +14,10 @@ public class UserDAS implements UserDAO{
     }
 
     private static void initDummyData() {
-        User user1 = new User(1L, "john", "john@gmail.com", "123456789", 1000, "helwan");
-        User user2 = new User(2L,"abdo", "abdo@gmail.com", "123456789", 2000, "maadi");
-        User user3 = new User(3L, "Hossam", "hossamaf15@gmail.com", "123456789", 3000, "maadi");
-        User user4 = new User(4L, "Hatem", "hatem101@yahoo.com", "123456789", 4000, "Bolak dakrour");
+        User user1 = new User(1L, "john", "john@gmail.com", "123456789", 1000, "helwan","01111111111");
+        User user2 = new User(2L,"abdo", "abdo@gmail.com", "123456789", 2000, "maadi","01111111111");
+        User user3 = new User(3L, "Hossam", "hossamaf15@gmail.com", "123456789", 3000, "maadi","01111111111");
+        User user4 = new User(4L, "Hatem", "hatem101@yahoo.com", "123456789", 4000, "Bolak dakrour","01111111111");
 
         db.add(user1);
         db.add(user2);

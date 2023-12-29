@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Queue;
 
 @Repository("notificationDAS")
-public class NotificationsDAS implements CustomRepository<Notification, Long> {
+public class NotificationsDAO implements CustomRepository<Notification, Long> {
     List<Notification> notificationDB = new ArrayList<>();
 
     Queue<Notification> notificationsQueue = new LinkedList<>();

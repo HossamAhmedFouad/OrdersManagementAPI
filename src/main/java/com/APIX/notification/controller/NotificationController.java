@@ -3,6 +3,8 @@ package com.APIX.notification.controller;
 
 import com.APIX.notification.model.Notification;
 import com.APIX.notification.service.NotificationService;
+import com.APIX.notification.service.NotificationStat;
+import com.APIX.notification.service.StatDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import java.util.List;
 public class NotificationController {
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    NotificationStat notificationStat;
 
     @PostMapping
     public ResponseEntity<Void> addNotification(@RequestBody Notification notification) {
@@ -31,6 +35,10 @@ public class NotificationController {
     public ResponseEntity<List<Notification>> getNotifications() {
         List<Notification> notifications = NotificationService.getNotifications();
         return ResponseEntity.ok(notifications);
+    }
+    @GetMapping(path = "stat")
+    public ResponseEntity<StatDTO> calcStat() {
+        return ResponseEntity.ok(notificationStat.getMostNotified());
     }
 
 

@@ -2,10 +2,8 @@ package com.APIX.notification.service;
 
 
 import com.APIX.CustomRepository;
-import com.APIX.notification.dao.NotificationsDAS;
+import com.APIX.notification.dao.NotificationsDAO;
 import com.APIX.notification.model.Notification;
-import com.APIX.order.model.Order;
-import com.APIX.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -23,20 +21,21 @@ public class NotificationService {
 
     @Scheduled(fixedDelay = 5000)
     public void processNotifications() {
-        NotificationsDAS notificationsDAS = (NotificationsDAS) notificationDas;
-        Notification notification = notificationsDAS.popNotification();
+        NotificationsDAO notificationsDAO = (NotificationsDAO) notificationDas;
+        Notification notification = notificationsDAO.popNotification();
         if (notification != null) {
-            notificationsDAS.save(notification);
+            notificationsDAO.save(notification);
             System.out.println("Popped notification: " + notification.getId());
         }
     }
+
     public static boolean addNotification(Notification notification){
         return notificationDas.save(notification);
     }
 
     public static boolean addNotificationToQueue(Notification notification){
-        NotificationsDAS notificationsDAS = (NotificationsDAS) notificationDas;
-        notificationsDAS.addNotificationToQueue(notification);
+        NotificationsDAO notificationsDAO = (NotificationsDAO) notificationDas;
+        notificationsDAO.addNotificationToQueue(notification);
         return true;
     }
 

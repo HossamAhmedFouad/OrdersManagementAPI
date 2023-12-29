@@ -9,6 +9,14 @@ public class User {
     private double balance;
     private String address;
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     private String phoneNumber;
 
     private Language language;

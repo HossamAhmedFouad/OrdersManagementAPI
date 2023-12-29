@@ -1,20 +1,24 @@
 package com.APIX.notification.model;
 
-
-import com.APIX.order.model.Order;
 import com.APIX.order.model.OrderState;
 import com.APIX.user.model.Language;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.time.LocalDateTime;
 
-
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = EmailNotification.class, name = "EmailNotification"),
+        @JsonSubTypes.Type(value = SMSNotification.class, name = "SMSNotification"),
+})
 public class Notification {
 
     static Long nextID = 1L;
     Long id;
     Language notificationLanguage;
     String notificationText;
-    OrderState notificationType; //TODO: implement Enum Classes instead of strings for Type and language
+    OrderState notificationType;
     LocalDateTime dateTime;
 
 

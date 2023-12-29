@@ -1,9 +1,13 @@
 package com.APIX.notification.Factory;
 
+import com.APIX.notification.model.EmailNotification;
 import com.APIX.notification.model.Notification;
+import com.APIX.notification.model.SMSNotification;
+import com.APIX.notification.service.NotificationStat;
 import com.APIX.order.model.Order;
 import com.APIX.order.model.OrderState;
 import com.APIX.user.model.Language;
+import com.APIX.user.model.User;
 import com.APIX.user.service.UserService;
 
 import java.time.LocalDateTime;
@@ -19,29 +23,24 @@ public class SMSFactory extends NotificationFactory {
 
         cancellationLang.put(Language.ENG, "Hi %s, your order #%d has been canceled on %s.");
         cancellationLang.put(Language.AR, "مرحبًا %s، تم إلغاء طلبك #%d في %s.");
+        stateTemplate.put(OrderState.PLACED,placementLang);
+        stateTemplate.put(OrderState.SHIPPED,shipmentLang);
+        stateTemplate.put(OrderState.CANCELED,cancellationLang);
+    }
+
+
+
+    void addToStat(User user) {
+        NotificationStat.addPhone(user.getPhoneNumber());
     }
 
     @Override
-    Notification createPlacementTemplate(Language lang, Order order) {
-        notificationText = placementLang.get(lang);
-        notificationText = fillPlaceholders(notificationText, UserService.getUserById(order.getUserID()).getUsername(), order.getId(), LocalDateTime.now());
-        return new Notification(lang, notificationText, OrderState.PLACED);
+    String getStateTemplate(Language lang,OrderState orderState) {
+        return stateTemplate.get(orderState).get(lang);
     }
 
-    @Override
-    Notification createShipmentTemplate(Language lang, Order order) {
-        notificationText = shipmentLang.get(lang);
-        notificationText = fillPlaceholders(notificationText, UserService.getUserById(order.getUserID()).getUsername(), order.getId(), LocalDateTime.now());
-        return new Notification(lang, notificationText, OrderState.SHIPPED);
-    }
-
-    @Override
-    Notification createCancellationTemplate(Language lang, Order order) {
-        notificationText = cancellationLang.get(lang);
-        notificationText = fillPlaceholders(notificationText, UserService.getUserById(order.getUserID()).getUsername(), order.getId(), LocalDateTime.now());
-        return new Notification(lang, notificationText, OrderState.CANCELED);
-    }
-
-
+    Notification createNotification(Language lang,String notificationText,OrderState orderState,User user ){
+        return new SMSNotification(lang, notificationText, orderState,user.getPhoneNumber());
+    };
 
 }
