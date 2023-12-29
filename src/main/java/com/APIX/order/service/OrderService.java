@@ -18,18 +18,26 @@ public class OrderService {
         OrderService.orderDAO = orderDAO;
     }
 
-    public static void placeOrder(Order order) {
-        OrderManager orderManager= OrderManager.createManager(order);
-        orderManager.placeOrder(order);
-
+    public static boolean placeOrder(Order order) {
+        OrderManager orderManager = OrderManager.createManager(order);
+        return orderManager.placeOrder(order);
     }
 
 
-    public static void cancelOrder(Order order) {
-        OrderManager orderManager=OrderManager.createManager(order);
-        orderManager.cancel(order);
+    public static boolean cancelOrder(Order order) {
+        OrderManager orderManager = OrderManager.createManager(order);
+        return orderManager.cancel(order);
     }
 
+    public static boolean shipOrder(Order order){
+        OrderManager orderManager = OrderManager.createManager(order);
+        return orderManager.shipOrder(order);
+    }
+
+    ///////////////////////////////////DataBase Access Functions///////////////////////////////////////////////////
+    public static boolean saveOrder(Order order){
+        return orderDAO.save(order);
+    }
 
     public static Order getOrderById(int orderId) {
         return orderDAO.getById(orderId);

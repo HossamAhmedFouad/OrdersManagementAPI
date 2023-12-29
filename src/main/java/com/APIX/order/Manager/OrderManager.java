@@ -14,13 +14,14 @@ public abstract class OrderManager {
 
         if(order instanceof SimpleOrder){
             return new SimpleOrderManager();
-        }else if(order instanceof CompoundOrder){
+        }else{
             return new CompoundOrderManager();
         }
-        return null;
+
     }
     public abstract boolean placeOrder(Order order);
     public abstract boolean cancel(Order order);
+    public abstract boolean shipOrder(Order order);
 
     protected void notify(Order order){
         //send notifications

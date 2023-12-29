@@ -22,7 +22,10 @@ public class CompoundOrder extends Order{
         return orders;
     }
 
-
+    @Override
+    public double getShippingFee(){
+        return super.getShippingFee() / (orders.size() + 1);
+    }
 
     public void removeOrder(SimpleOrder order){
         orders.remove(order);

@@ -1,6 +1,7 @@
 package com.APIX.order.dao;
 
 import com.APIX.CustomRepository;
+import com.APIX.order.model.CompoundOrder;
 import com.APIX.order.model.Order;
 import com.APIX.order.model.SimpleOrder;
 import com.APIX.product.model.Product;
@@ -37,6 +38,8 @@ public class OrderDAOImpl implements CustomRepository<Order, Integer> {
         Order dummyOrder = new SimpleOrder(1, dummyProducts, 5.0, user1);
 
         orders.add(dummyOrder);
+        Order dummyCompound = new CompoundOrder(2, dummyProducts, 5.0, user1, new ArrayList<>());
+        orders.add(dummyCompound);
     }
 
     @Override

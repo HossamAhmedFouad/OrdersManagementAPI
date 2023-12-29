@@ -43,7 +43,7 @@ public class OrderController{
 //    }
     @GetMapping("/{orderId}")
     public Order getOrderById(@PathVariable int orderId) {
-        return orderService.getOrderById(orderId);
+        return OrderService.getOrderById(orderId);
     }
 
     @GetMapping("/all")
