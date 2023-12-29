@@ -14,13 +14,16 @@ public class UserDAS implements UserDAO{
     }
 
     private static void initDummyData() {
-        User dummyProduct1 = new User("john", "john@gmail.com", "123456789", 1000, "helwan");
-        User dummyProduct2 = new User("adbo", "abdo@gmail.com", "123456789", 2000, "maadi");
+        User user1 = new User(1L, "john", "john@gmail.com", "123456789", 1000, "helwan");
+        User user2 = new User(2L,"abdo", "abdo@gmail.com", "123456789", 2000, "maadi");
+        User user3 = new User(3L, "Hossam", "hossamaf15@gmail.com", "123456789", 3000, "maadi");
+        User user4 = new User(4L, "Hatem", "hatem101@yahoo.com", "123456789", 4000, "Bolak dakrour");
 
-        db.add(dummyProduct1);
-        db.add(dummyProduct2);
+        db.add(user1);
+        db.add(user2);
+        db.add(user3);
+        db.add(user4);
     }
-    long id=0;
     @Override
     public boolean addUser(User user) {
 
@@ -29,8 +32,6 @@ public class UserDAS implements UserDAO{
                 return false;
             }
         }
-        id++;
-        user.setId(id);
         db.add(user);
         return true;
     }

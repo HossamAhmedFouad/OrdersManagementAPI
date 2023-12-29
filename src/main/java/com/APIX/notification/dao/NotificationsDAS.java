@@ -25,11 +25,17 @@ public class NotificationsDAS implements CustomRepository<Notification, Long> {
         return null;
     }
 
+    public Notification popNotification(){
+        return notificationsQueue.poll();
+    }
+
+    public void addNotificationToQueue(Notification notification){
+        notificationsQueue.add(notification);
+    }
+
     @Override
     public boolean save(Notification entity) {
         if(entity == null) return false;
-
-        notificationsQueue.add(entity);
         notificationDB.add(entity);
         return true;
     }

@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository("OrderDAOImpl")
-public class OrderDAOImpl implements CustomRepository<Order, Integer> {
+@Repository("OrderDAO")
+public class OrderDAO implements CustomRepository<Order, Integer> {
     private static final List<Order> orders = new ArrayList<>();
 
     static {
@@ -22,23 +22,27 @@ public class OrderDAOImpl implements CustomRepository<Order, Integer> {
     }
 
     private static void initDummyDataOrder() {
-
-
-        Product p1 = new Product(1L, "Dummy Product 1", "Vendor 1", "Electronics", 99.99, 1);
-        Product p2 = new Product(2L, "Dummy Product 2", "Vendor 2", "Clothing", 49.99, 2);
+        Product dummyProduct1 = new Product(1L, "Dummy Product 1", "Vendor 1", "Electronics", 99.99, 10);
+        Product dummyProduct2 = new Product(2L, "Dummy Product 2", "Vendor 2", "Clothing", 49.99, 20);
 
         List<Product> dummyProducts = new ArrayList<>();
-        dummyProducts.add(p1);
-        dummyProducts.add(p2);
+        dummyProducts.add(dummyProduct1);
+        dummyProducts.add(dummyProduct2);
 
-        // Create a dummy user
-        User user1 = new User("john", "john@gmail.com", "123456789", 1000, "helwan");
 
-        // Create a dummy order
-        Order dummyOrder = new SimpleOrder(1, dummyProducts, 5.0, user1);
+        SimpleOrder dummyOrder = new SimpleOrder(1, dummyProducts, 5.0, 1L);
+        SimpleOrder dummyOrder2 = new SimpleOrder(2, dummyProducts, 5.0, 2L);
+        SimpleOrder dummyOrder3 = new SimpleOrder(3, dummyProducts, 5.0, 3L);
+        SimpleOrder dummyOrder4 = new SimpleOrder(4, dummyProducts, 5.0, 4L);
 
         orders.add(dummyOrder);
-        Order dummyCompound = new CompoundOrder(2, dummyProducts, 5.0, user1, new ArrayList<>());
+        List<SimpleOrder>friendsOrders = new ArrayList<>();
+
+        friendsOrders.add(dummyOrder2);
+        friendsOrders.add(dummyOrder3);
+        friendsOrders.add(dummyOrder4);
+
+        Order dummyCompound = new CompoundOrder(5, dummyProducts, 10, 1L, friendsOrders);
         orders.add(dummyCompound);
     }
 
@@ -47,7 +51,7 @@ public class OrderDAOImpl implements CustomRepository<Order, Integer> {
         if (order == null) {
             throw new IllegalArgumentException("Order cannot be null.");
         }
-        if (order.getTotalPrice() > order.getUser().getBalance()) {
+        if (order.getTotalPrice() > UserService.getUserById(order.getUserID()).getBalance()) {
             throw new IllegalArgumentException("You have not enough balance");
         }
         return orders.add(order);

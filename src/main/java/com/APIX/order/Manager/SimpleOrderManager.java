@@ -1,11 +1,15 @@
 package com.APIX.order.Manager;
+import com.APIX.notification.Factory.EmailFactory;
+import com.APIX.notification.Factory.SMSFactory;
 import com.APIX.order.model.Order;
 import com.APIX.order.model.OrderState;
+import com.APIX.order.model.SimpleOrder;
 import com.APIX.order.service.OrderService;
 import com.APIX.payment.service.OrderPayment;
 import com.APIX.payment.service.PaymentService;
 import com.APIX.product.model.Product;
 import com.APIX.product.service.ProductService;
+import com.APIX.user.service.UserService;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -14,16 +18,22 @@ public class SimpleOrderManager extends OrderManager {
 
 
     PaymentService paymentService = new OrderPayment();
+
+    SimpleOrderManager(){
+        this.notificationObservers.add(new SMSFactory());
+        this.notificationObservers.add(new EmailFactory());
+    }
+
     @Override
     public boolean placeOrder(Order order) {
-        if(paymentService.payOrder(order.getUser().getId(), order.getTotalPrice())){
+        if(paymentService.payOrder(order.getUserID(), order.getTotalPrice())){
             for(Product product : order.getProducts()){
 
                 if(!ProductService.decrementProduct(product.getId(), 1)){
                     return false;
                 }
             }
-            notifyObservers("ENG",order);
+            changeOrderStatus(order, OrderState.PLACED);
             return OrderService.saveOrder(order);
         }
         return false;
@@ -32,11 +42,11 @@ public class SimpleOrderManager extends OrderManager {
     @Override
     public boolean cancel(Order order) {
         if(order.getStatus() == OrderState.PLACED){
-            order.setStatus(OrderState.CANCELED);
-            OrderService.updateOrder(order);
-            paymentService.refund(order.getUser().getId(), order.getTotalPrice());
+
+            paymentService.refund(order.getUserID(), order.getTotalPrice());
             //Send notification for cancellation
-            notifyObservers("ENG",order);
+            changeOrderStatus(order, OrderState.CANCELED);
+            OrderService.updateOrder(order);
             return true;
         }
 
@@ -45,11 +55,11 @@ public class SimpleOrderManager extends OrderManager {
         }
 
         if(order.getStatus() == OrderState.SHIPPED){
-            Duration duration = Duration.between(LocalDateTime.now(), order.getOrderDateTime());
-            long diffInMinutes = duration.toMinutes();
-            if(diffInMinutes < 1){
-                paymentService.refund(order.getUser().getId(), order.getShippingFee());
-                order.setStatus(OrderState.PLACED);
+            Duration duration = Duration.between(order.getOrderDateTime(), LocalDateTime.now());
+            long diffInMinutes = duration.toSeconds();
+            if(diffInMinutes < 5){
+                paymentService.refund(order.getUserID(), order.getShippingFee());
+                changeOrderStatus(order, OrderState.CANCELED);
                 OrderService.updateOrder(order);
                 return true;
             }
@@ -61,11 +71,10 @@ public class SimpleOrderManager extends OrderManager {
     @Override
     public boolean shipOrder(Order order) {
         if(order.getStatus() == OrderState.PLACED){
-            if(paymentService.payOrder(order.getUser().getId(), order.getShippingFee())){
-                order.setStatus(OrderState.SHIPPED);
+            if(paymentService.payOrder(order.getUserID(), order.getShippingFee())){
+                changeOrderStatus(order, OrderState.SHIPPED);
                 order.setOrderDateTime(LocalDateTime.now());
                 OrderService.updateOrder(order);
-                notifyObservers("ENG",order);
                 return true;
             } else return false;
         }

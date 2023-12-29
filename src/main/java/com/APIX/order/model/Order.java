@@ -19,11 +19,11 @@ public abstract class Order {
     private final int id;
     private final List<Product> products;
     private final double shippingFee;
-    private final User user;
+    private Long userID;
     private LocalDateTime orderDateTime;
 
     private OrderState status;
-    public Order(int id, List<Product> products, double shippingFee, User user) {
+    public Order(int id, List<Product> products, double shippingFee, Long userID) {
 
 
         if (id <= 0 || products == null || shippingFee < 0) {
@@ -33,12 +33,12 @@ public abstract class Order {
         this.id = id;
         this.products = products;
         this.shippingFee = shippingFee;
-        this.user = user;
+        this.userID = userID;
         this.orderDateTime = LocalDateTime.now();
         this.status = OrderState.PLACED;
     }
-    public User getUser() {
-        return user;
+    public Long getUserID() {
+        return userID;
     }
     public int getId() {
         return id;

@@ -1,6 +1,10 @@
 package com.APIX.notification.model;
 
 
+import com.APIX.order.model.Order;
+import com.APIX.order.model.OrderState;
+import com.APIX.user.model.Language;
+
 import java.time.LocalDateTime;
 
 
@@ -8,13 +12,13 @@ public class Notification {
 
     static Long nextID = 1L;
     Long id;
-    String notificationLanguage;
+    Language notificationLanguage;
     String notificationText;
-    String notificationType; //TODO: implement Enum Classes instead of strings for Type and language
+    OrderState notificationType; //TODO: implement Enum Classes instead of strings for Type and language
     LocalDateTime dateTime;
 
 
-    public Notification(String notificationLanguage, String notificationText, String notificationType) {
+    public Notification(Language notificationLanguage, String notificationText, OrderState notificationType) {
         this.id = nextID++;
         this.notificationLanguage = notificationLanguage;
         this.notificationText = notificationText;
@@ -30,11 +34,11 @@ public class Notification {
         this.id = id;
     }
 
-    public String getNotificationLanguage() {
+    public Language getNotificationLanguage() {
         return notificationLanguage;
     }
 
-    public void setNotificationLanguage(String notificationLanguage) {
+    public void setNotificationLanguage(Language notificationLanguage) {
         this.notificationLanguage = notificationLanguage;
     }
 
@@ -46,11 +50,11 @@ public class Notification {
         this.notificationText = notificationText;
     }
 
-    public String getNotificationType() {
+    public OrderState getNotificationType() {
         return notificationType;
     }
 
-    public void setNotificationType(String notificationType) {
+    public void setNotificationType(OrderState notificationType) {
         this.notificationType = notificationType;
     }
 

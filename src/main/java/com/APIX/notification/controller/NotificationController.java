@@ -18,7 +18,7 @@ public class NotificationController {
 
     @PostMapping
     public ResponseEntity<Void> addNotification(@RequestBody Notification notification) {
-        boolean added = notificationService.addNotification(notification);
+        boolean added = NotificationService.addNotification(notification);
         if(added){
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }else{
@@ -29,14 +29,14 @@ public class NotificationController {
 
     @GetMapping
     public ResponseEntity<List<Notification>> getNotifications() {
-        List<Notification> notifications = notificationService.getNotifications();
+        List<Notification> notifications = NotificationService.getNotifications();
         return ResponseEntity.ok(notifications);
     }
 
 
     @GetMapping(path = "{id}")
     public ResponseEntity<Notification> getNotification(@PathVariable("id") Long id) {
-        Notification product = notificationService.getNotification(id);
+        Notification product = NotificationService.getNotification(id);
         if (product != null) {
             return ResponseEntity.ok(product);
         } else {
@@ -47,7 +47,7 @@ public class NotificationController {
 
     @DeleteMapping(path = "{id}")
     public ResponseEntity<Void> deleteNotification(@PathVariable("id") Long id) {
-        boolean deleted = notificationService.deleteNotification(id);
+        boolean deleted = NotificationService.deleteNotification(id);
         if (deleted) {
             return ResponseEntity.noContent().build();
         } else {
@@ -57,7 +57,7 @@ public class NotificationController {
 
     @PutMapping(path = "{id}")
     public ResponseEntity<Void> updateNotification(@RequestBody Notification notification) {
-        boolean updated = notificationService.updateNotification(notification);
+        boolean updated = NotificationService.updateNotification(notification);
         if (updated) {
             return ResponseEntity.noContent().build();
         } else {

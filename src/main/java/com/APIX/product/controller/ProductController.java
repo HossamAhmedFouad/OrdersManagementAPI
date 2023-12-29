@@ -19,7 +19,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Void> addProduct(@RequestBody Product product) {
-        boolean added = productService.addProduct(product);
+        boolean added = ProductService.addProduct(product);
         if(added){
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }else{
@@ -30,14 +30,14 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<Product>> getProducts() {
-        List<Product> products = productService.getProducts();
+        List<Product> products = ProductService.getProducts();
         return ResponseEntity.ok(products);
     }
 
 
     @GetMapping(path = "{id}")
     public ResponseEntity<Product> getProduct(@PathVariable("id") Long id) {
-        Product product = productService.getProduct(id);
+        Product product = ProductService.getProduct(id);
         if (product != null) {
             return ResponseEntity.ok(product);
         } else {
@@ -48,7 +48,7 @@ public class ProductController {
 
     @DeleteMapping(path = "{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id) {
-        boolean deleted = productService.deleteProduct(id);
+        boolean deleted = ProductService.deleteProduct(id);
         if (deleted) {
             return ResponseEntity.noContent().build();
         } else {
@@ -58,7 +58,7 @@ public class ProductController {
 
     @PutMapping(path = "{id}")
     public ResponseEntity<Void> updateProduct(@RequestBody Product product) {
-        boolean updated = productService.updateProduct(product);
+        boolean updated = ProductService.updateProduct(product);
         if (updated) {
             return ResponseEntity.noContent().build();
         } else {

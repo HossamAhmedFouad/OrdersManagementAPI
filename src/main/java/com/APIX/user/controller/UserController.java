@@ -15,7 +15,7 @@ public class UserController {
     UserService userService;
     @PostMapping
     public ResponseEntity<String> addUser(@RequestBody User user) {
-       if(userService.addUser(user)){
+       if(UserService.addUser(user)){
            return ResponseEntity.status(HttpStatus.CREATED).build();
        }
         return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
@@ -24,7 +24,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {
         try {
-            List<User>users=userService.getUsers();
+            List<User>users=UserService.getUsers();
             if(users!=null){
                 return  ResponseEntity.ok(users);
             }
@@ -36,7 +36,7 @@ public class UserController {
 
     @DeleteMapping(path = "{id}")
     public ResponseEntity<Void> removeUserById(@PathVariable("id") long id) {
-        if(userService.removeUserById(id)){
+        if(UserService.removeUserById(id)){
             ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
@@ -44,8 +44,8 @@ public class UserController {
     }
 
     @GetMapping(path = "{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") long id) {
-        User user=userService.getUserById(id);
+    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
+        User user=UserService.getUserById(id);
         if(user!=null){
             return ResponseEntity.ok(user);
         }
@@ -56,7 +56,7 @@ public class UserController {
 
     @PutMapping(path = "{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") long id ,@RequestBody User user) {
-        User updatedUser=userService.updateUser(id,user);
+        User updatedUser=UserService.updateUser(id,user);
         if(updatedUser!=null){
             return ResponseEntity.ok(updatedUser);
         }
