@@ -4,10 +4,17 @@ package com.APIX.order.model;
 
 import com.APIX.product.model.Product;
 import com.APIX.user.model.User;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = SimpleOrder.class, name = "simpleOrder"),
+        @JsonSubTypes.Type(value = CompoundOrder.class, name = "compoundOrder"),
+})
 public abstract class Order {
     private final int id;
     private final List<Product> products;

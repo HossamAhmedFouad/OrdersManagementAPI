@@ -15,13 +15,14 @@ public class CompoundOrder extends Order{
         super(id, products, shippingFee,user);
         this.orders = orders;
     }
+    public void addOrder (SimpleOrder order) {
+        orders.add (order);
+    }
     public List<SimpleOrder> getOrders() {
         return orders;
     }
 
-    public void addOrder (SimpleOrder order) {
-        orders.add (order);
-    }
+
 
     public void removeOrder(SimpleOrder order){
         orders.remove(order);

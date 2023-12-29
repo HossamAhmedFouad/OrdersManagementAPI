@@ -1,6 +1,7 @@
 package com.APIX.order.controller;
 
 import com.APIX.order.model.Order;
+import com.APIX.order.model.SimpleOrder;
 import com.APIX.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,32 +13,25 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController{
-    @Autowired
+//    @Autowired
     private OrderService orderService;
 
 
-    @PostMapping("/add/{amount}")
-    public ResponseEntity<String> addOrder(@PathVariable("amount") int amountOfOrders, @RequestBody List<Order> orders){
-//        if(amountOfOrders == 1){
-//            //Simple Manager Here
-//        }else if(amountOfOrders > 1){
-//            //Compound Order Here
-//        }
-//
-//        if (!res) {
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body("cannot add order");
-//        }
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    @PostMapping("/add")
+    public ResponseEntity<String> addOrder(@RequestBody Order order){
+        orderService.placeOrder(order);
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
     }
-    @PostMapping("/cancel/{id}")
-    public ResponseEntity<String> addOrder(Order order){
+//    @PostMapping("/cancel/{id}")
+//    public ResponseEntity<String> addOrder(Order order){
 //        factory.placment(order);
 //        boolean res = imannger.cancel(order);
 //        if (!res) {
 //            return ResponseEntity.status(HttpStatus.CONFLICT).body("cannot add order");
 //        }
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
+//        return ResponseEntity.status(HttpStatus.CREATED).build();
+//    }
 //    @PostMapping("/compound")
 //    public ResponseEntity<String> addCompoundOrder( @RequestBody CompoundOrder compoundOrder){
 //        boolean res = orderService.placeCompoundOrder(compoundOrder);

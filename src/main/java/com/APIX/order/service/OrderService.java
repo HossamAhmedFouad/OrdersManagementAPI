@@ -11,10 +11,12 @@ import java.util.List;
 
 @Service
 public class OrderService {
-    @Autowired
+//    @Autowired
     private static CustomRepository<Order, Integer> orderDAO;
-
-
+    @Autowired
+    public OrderService(CustomRepository<Order, Integer> orderDAO){
+        OrderService.orderDAO = orderDAO;
+    }
 
     public static void placeOrder(Order order) {
         OrderManager orderManager= OrderManager.createManager(order);

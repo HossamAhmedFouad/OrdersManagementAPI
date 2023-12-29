@@ -10,7 +10,6 @@ import com.APIX.product.service.ProductService;
 import com.APIX.user.model.User;
 
 public abstract class OrderManager {
-;
     public static OrderManager createManager(Order order){
 
         if(order instanceof SimpleOrder){
