@@ -20,8 +20,8 @@ public class OrderController{
     public ResponseEntity<String> addOrder(@RequestBody Order order){
         orderManager = ManagerFactory.createManager(order);
         if(orderManager.placeOrder(order)){
-            return ResponseEntity.status(HttpStatus.OK).body("Order Has Been Placed Successfully");
-        }
+            return ResponseEntity.status(HttpStatus.OK).body("Order Has Been Placed Successfully with id: " + order.getId());
+    }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Order Placing Failed");
     }
 
@@ -43,7 +43,7 @@ public class OrderController{
         if(order == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid Order ID");
         orderManager = ManagerFactory.createManager(order);
         if(orderManager.shipOrder(order)){
-            return ResponseEntity.status(HttpStatus.OK).body("Order Has Been Shipped Successfully");
+            return ResponseEntity.status(HttpStatus.OK).body("order is being ship");
         }else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Order Shipping Failed");
         }
