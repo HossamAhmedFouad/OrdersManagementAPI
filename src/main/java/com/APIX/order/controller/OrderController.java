@@ -62,12 +62,8 @@ public class OrderController{
     public void updateOrder(@RequestBody Order order) {
         OrderService.updateOrder(order);
     }
-//    delete order placement only
     @DeleteMapping("/delete/{orderId}")
     public void deleteOrder(@PathVariable int orderId) {
-        if(OrderService.deleteOrder(orderId)){
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You can't cancel the order");
-        }
         ResponseEntity.status(HttpStatus.BAD_REQUEST).body("order cancelled successfully");
     }
 }

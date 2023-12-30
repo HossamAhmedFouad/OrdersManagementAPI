@@ -54,12 +54,8 @@ public class OrderService {
     }
 
 
-    public static boolean deleteOrder(int orderId) {
-        Order order = getOrderById(orderId);
-        if (order.getStatus()!=OrderState.PLACED){
-            return false;
-        }
+    public static void deleteOrder(int orderId) {
+
         orderDAO.delete(orderId);
-        return true;
     }
 }
