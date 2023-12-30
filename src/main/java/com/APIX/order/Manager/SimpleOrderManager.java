@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class SimpleOrderManager extends OrderManager {
     PaymentService paymentService = new OrderPayment();
 
-    SimpleOrderManager(){
+    public SimpleOrderManager(){
         addObserver(new SMSFactory());
         addObserver(new EmailFactory());
     }

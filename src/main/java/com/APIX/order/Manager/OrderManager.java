@@ -13,15 +13,7 @@ import java.util.List;
 
 public abstract class OrderManager implements Subject {
     protected List<Observer> notificationObservers = new ArrayList<>();
-    public static OrderManager createManager(Order order){
 
-        if(order instanceof SimpleOrder){
-            return new SimpleOrderManager();
-        }else{
-            return new CompoundOrderManager();
-        }
-
-    }
     public abstract boolean placeOrder(Order order);
     public abstract boolean cancel(Order order);
     public abstract boolean shipOrder(Order order);

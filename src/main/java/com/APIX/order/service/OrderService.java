@@ -1,6 +1,7 @@
 package com.APIX.order.service;
 
 import com.APIX.CustomRepository;
+import com.APIX.order.Factory.ManagerFactory;
 import com.APIX.order.Manager.OrderManager;
 import com.APIX.order.model.Order;
 import com.APIX.order.model.OrderState;
@@ -22,18 +23,18 @@ public class OrderService {
     }
 
     public static boolean placeOrder(Order order) {
-        OrderManager orderManager = OrderManager.createManager(order);
+        OrderManager orderManager = ManagerFactory.createManager(order);
         return orderManager.placeOrder(order);
     }
 
 
     public static boolean cancelOrder(Order order) {
-        OrderManager orderManager = OrderManager.createManager(order);
+        OrderManager orderManager = ManagerFactory.createManager(order);
         return orderManager.cancel(order);
     }
 
     public static boolean shipOrder(Order order){
-        OrderManager orderManager = OrderManager.createManager(order);
+        OrderManager orderManager = ManagerFactory.createManager(order);
         return orderManager.shipOrder(order);
     }
 

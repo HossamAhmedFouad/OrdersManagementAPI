@@ -1,5 +1,6 @@
 package com.APIX.order.controller;
 
+import com.APIX.order.Factory.ManagerFactory;
 import com.APIX.order.Manager.OrderManager;
 import com.APIX.order.model.Order;
 import com.APIX.order.service.OrderService;
@@ -17,7 +18,7 @@ public class OrderController{
 
     @PostMapping
     public ResponseEntity<String> addOrder(@RequestBody Order order){
-        orderManager = OrderManager.createManager(order);
+        orderManager = ManagerFactory.createManager(order);
         if(orderManager.placeOrder(order)){
             return ResponseEntity.status(HttpStatus.OK).body("Order Has Been Placed Successfully");
         }
@@ -28,7 +29,7 @@ public class OrderController{
     public ResponseEntity<String> cancelOrder(@PathVariable("id") Long orderID){
         Order order = OrderService.getOrderById(orderID);
         if(order == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid Order ID");
-        orderManager = OrderManager.createManager(order);
+        orderManager = ManagerFactory.createManager(order);
         if(orderManager.cancel(order)){
             return ResponseEntity.status(HttpStatus.OK).body("Order Has Been Cancelled Successfully");
         } else{
@@ -40,7 +41,7 @@ public class OrderController{
     public ResponseEntity<String> shipOrder(@PathVariable("id") Long orderID){
         Order order = OrderService.getOrderById(orderID);
         if(order == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid Order ID");
-        orderManager = OrderManager.createManager(order);
+        orderManager = ManagerFactory.createManager(order);
         if(orderManager.shipOrder(order)){
             return ResponseEntity.status(HttpStatus.OK).body("Order Has Been Shipped Successfully");
         }else{

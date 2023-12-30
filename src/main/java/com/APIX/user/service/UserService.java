@@ -29,6 +29,16 @@ public class UserService {
         return userDAO.delete(id);
     }
 
+    public static User checkUserExits(String email, String password){
+        List<User> users = userDAO.getAll();
+        for(User user : users){
+            if(user.getEmail().equals(email) && user.getPassword().equals(password)){
+                return user;
+            }
+        }
+        return null;
+    }
+
     public static User getUserById(long id) {
         return userDAO.getById(id);
     }

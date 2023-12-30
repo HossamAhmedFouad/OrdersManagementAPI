@@ -35,6 +35,16 @@ public class UserController {
 
     }
 
+    @GetMapping("/check")
+    public ResponseEntity<?>checkUser(
+            @RequestParam(value = "email") String email,
+            @RequestParam(value = "password") String password
+    ) {
+        User user = UserService.checkUserExits(email, password);
+        if(user == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid User Credentials");
+        return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
     @GetMapping(path = "{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") Long id) {
         User user = UserService.getUserById(id);
