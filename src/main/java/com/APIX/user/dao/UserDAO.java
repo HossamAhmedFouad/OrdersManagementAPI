@@ -1,5 +1,6 @@
 package com.APIX.user.dao;
 import com.APIX.CustomRepository;
+import com.APIX.user.model.Language;
 import com.APIX.user.model.User;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +20,9 @@ public class UserDAO implements CustomRepository<User, Long> {
         User user2 = new User("abdo", "abdo@gmail.com", "123456789", 2000, "maadi","01111111111");
         User user3 = new User("Hossam","hossamaf15@gmail.com","123456789", 3000, "maadi","01111111111");
         User user4 = new User("Hatem", "hatem101@yahoo.com", "123456789", 4000, "Bolak dakrour","01111111111");
+
+        user2.setLanguage(Language.AR);
+        user3.setLanguage(Language.AR);
 
         db.add(user1);
         db.add(user2);
