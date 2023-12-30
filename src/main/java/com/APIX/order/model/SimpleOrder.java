@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class SimpleOrder extends Order{
-    public SimpleOrder(int id, List<ProductDTO> products, double shippingFee, Long userID) {
-        super(id, products, shippingFee,userID);
+    public SimpleOrder(int id, List<ProductDTO> products, Long userID) {
+        super(id, products,userID);
     }
 
     public void printDetails() {

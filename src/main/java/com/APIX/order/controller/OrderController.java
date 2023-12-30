@@ -24,14 +24,14 @@ public class OrderController{
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Order Placing Failed");
     }
 
-
+//    cancel shipping
     @PutMapping("/cancel/{id}")
     public ResponseEntity<String> cancelOrder(@PathVariable("id") int orderID){
         Order order = OrderService.getOrderById(orderID);
         orderManager = OrderManager.createManager(order);
         if(orderManager.cancel(order)){
             return ResponseEntity.status(HttpStatus.OK).body("Order Has Been Cancelled Successfully");
-        }else{
+        } else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Order Cancellation Failed");
         }
     }
@@ -64,6 +64,6 @@ public class OrderController{
     }
     @DeleteMapping("/delete/{orderId}")
     public void deleteOrder(@PathVariable int orderId) {
-        ResponseEntity.status(HttpStatus.BAD_REQUEST).body("order cancelled successfully");
+        OrderService.deleteOrder(orderId);
     }
 }

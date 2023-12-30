@@ -55,7 +55,6 @@ public class OrderService {
 
 
     public static void deleteOrder(int orderId) {
-
         orderDAO.delete(orderId);
     }
 }

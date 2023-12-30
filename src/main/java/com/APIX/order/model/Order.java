@@ -20,21 +20,20 @@ import java.util.List;
 public abstract class Order {
     private final int id;
     private final List<ProductDTO> products;
-    private final double shippingFee;
+    private double shippingFee;
     private Long userID;
     private LocalDateTime orderDateTime;
 
     private OrderState status;
-    public Order(int id, List<ProductDTO> products, double shippingFee, Long userID) {
+    public Order(int id, List<ProductDTO> products, Long userID) {
 
 
-        if (id <= 0 || products == null || shippingFee < 0) {
+        if (id <= 0 || products == null) {
             throw new IllegalArgumentException("Invalid input parameters for order creation.");
         }
 
         this.id = id;
         this.products = products;
-        this.shippingFee = shippingFee;
         this.userID = userID;
         this.orderDateTime = LocalDateTime.now();
         this.status = OrderState.PLACED;
@@ -48,8 +47,10 @@ public abstract class Order {
     public List<ProductDTO> getProducts() {
         return products;
     }
+
     public double getShippingFee() {
-        return getTotalPrice() / 10;
+        this.shippingFee = getTotalPrice() / 10;
+        return shippingFee;
     }
     public OrderState getStatus() {
         return status;

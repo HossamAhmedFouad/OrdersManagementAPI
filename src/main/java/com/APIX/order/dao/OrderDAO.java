@@ -31,10 +31,10 @@ public class OrderDAO implements CustomRepository<Order, Integer> {
         dummyProducts.add(p1);
         dummyProducts.add(p2);
 
-        SimpleOrder dummyOrder = new SimpleOrder(1, dummyProducts, 5.0, 1L);
-        SimpleOrder dummyOrder2 = new SimpleOrder(2, dummyProducts, 5.0, 2L);
-        SimpleOrder dummyOrder3 = new SimpleOrder(3, dummyProducts, 5.0, 3L);
-        SimpleOrder dummyOrder4 = new SimpleOrder(4, dummyProducts, 5.0, 4L);
+        SimpleOrder dummyOrder = new SimpleOrder(1, dummyProducts,  1L);
+        SimpleOrder dummyOrder2 = new SimpleOrder(2, dummyProducts, 2L);
+        SimpleOrder dummyOrder3 = new SimpleOrder(3, dummyProducts, 3L);
+        SimpleOrder dummyOrder4 = new SimpleOrder(4, dummyProducts, 4L);
 
         orders.add(dummyOrder);
         List<SimpleOrder>friendsOrders = new ArrayList<>();
@@ -43,7 +43,7 @@ public class OrderDAO implements CustomRepository<Order, Integer> {
         friendsOrders.add(dummyOrder3);
         friendsOrders.add(dummyOrder4);
 
-        Order dummyCompound = new CompoundOrder(5, dummyProducts, 10, 1L, friendsOrders);
+        Order dummyCompound = new CompoundOrder(5, dummyProducts, 1L, friendsOrders);
         orders.add(dummyCompound);
     }
 
