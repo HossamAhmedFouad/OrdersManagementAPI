@@ -16,10 +16,13 @@ public class ProductDAO implements CustomRepository<Product, Long> {
     }
 
     private static void initDummyData() {
-        Product dummyProduct1 = new Product(1L, "Dummy Product 1", "Vendor 1", "Electronics", 99.99, 10);
-        Product dummyProduct2 = new Product(2L, "Dummy Product 2", "Vendor 2", "Clothing", 49.99, 20);
+        Product dummyProduct1 = new Product(1L, "Dummy Product 1", "Vendor 1", "Electronics", 99.99, 100);
+        Product dummyProduct2 = new Product(2L, "Dummy Product 2", "Vendor 2", "Clothing", 49.99, 200);
+        Product dummyProduct3 = new Product(3L, "Dummy Product 3", "Vendor 3", "Clothing", 100, 100);
+
         db.add(dummyProduct1);
         db.add(dummyProduct2);
+        db.add(dummyProduct3);
     }
     
     @Override
