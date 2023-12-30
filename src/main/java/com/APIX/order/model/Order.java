@@ -3,6 +3,8 @@ package com.APIX.order.model;
 
 
 import com.APIX.product.model.Product;
+import com.APIX.product.model.ProductDTO;
+import com.APIX.product.service.ProductService;
 import com.APIX.user.model.User;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -17,13 +19,13 @@ import java.util.List;
 })
 public abstract class Order {
     private final int id;
-    private final List<Product> products;
+    private final List<ProductDTO> products;
     private final double shippingFee;
     private Long userID;
     private LocalDateTime orderDateTime;
 
     private OrderState status;
-    public Order(int id, List<Product> products, double shippingFee, Long userID) {
+    public Order(int id, List<ProductDTO> products, double shippingFee, Long userID) {
 
 
         if (id <= 0 || products == null || shippingFee < 0) {
@@ -43,7 +45,7 @@ public abstract class Order {
     public int getId() {
         return id;
     }
-    public List<Product> getProducts() {
+    public List<ProductDTO> getProducts() {
         return products;
     }
     public double getShippingFee() {
@@ -55,10 +57,23 @@ public abstract class Order {
     public void setStatus(OrderState status) {
         this.status = status;
     }
+//    public double getTotalPrice() {
+//        double totalPrice = 0;
+//        for (Product product : getProducts()) {
+//            totalPrice += product.getPrice();
+//        }
+//        return totalPrice;
+//    }
+
     public double getTotalPrice() {
         double totalPrice = 0;
-        for (Product product : getProducts()) {
-            totalPrice += product.getPrice();
+        for (ProductDTO lineItem : getProducts()) {
+            Long productId = lineItem.getId();
+            int quantity = lineItem.getQuantity();
+
+            Product product = ProductService.getProduct(productId);
+            double productPrice = product.getPrice();
+            totalPrice += productPrice * quantity;
         }
         return totalPrice;
     }
@@ -70,4 +85,5 @@ public abstract class Order {
     public void setOrderDateTime(LocalDateTime dateTime){
         this.orderDateTime = dateTime;
     }
+    public abstract void printDetails();
 }

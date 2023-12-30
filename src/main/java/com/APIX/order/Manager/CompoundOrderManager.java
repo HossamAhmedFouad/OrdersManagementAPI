@@ -10,6 +10,7 @@ import com.APIX.order.service.OrderService;
 import com.APIX.payment.service.OrderPayment;
 import com.APIX.payment.service.PaymentService;
 import com.APIX.product.model.Product;
+import com.APIX.product.model.ProductDTO;
 import com.APIX.product.service.ProductService;
 import org.springframework.cglib.core.Local;
 
@@ -30,8 +31,8 @@ public class CompoundOrderManager extends OrderManager {
         CompoundOrder compoundOrder = (CompoundOrder) order;
 
         if(paymentService.payOrder(compoundOrder.getUserID(), compoundOrder.getTotalPrice())){
-            for(Product product : compoundOrder.getProducts()){
-                if(!ProductService.decrementProduct(product.getId(), 1)){
+            for(ProductDTO product : compoundOrder.getProducts()){
+                if(!ProductService.decrementProduct(product.getId(), product.getQuantity())){
                     return false;
                 }
             }
@@ -40,8 +41,8 @@ public class CompoundOrderManager extends OrderManager {
         changeOrderStatus(compoundOrder, OrderState.PLACED);
         for(Order o : compoundOrder.getOrders()){
             if(paymentService.payOrder(o.getUserID(), o.getTotalPrice())){
-                for(Product product : o.getProducts()){
-                    if(!ProductService.decrementProduct(product.getId(), 1)){
+                for(ProductDTO product : o.getProducts()){
+                    if(!ProductService.decrementProduct(product.getId(), product.getQuantity())){
                         return false;
                     }
                 }
@@ -67,15 +68,15 @@ public class CompoundOrderManager extends OrderManager {
             //1 - Refund for Compound Order Owner and return products to stock
             paymentService.refund(order.getUserID(), order.getTotalPrice());
             changeOrderStatus(compoundOrder, OrderState.CANCELED);
-            for(Product product : compoundOrder.getProducts()){
-                ProductService.incrementProduct(product.getId(), 1);
+            for(ProductDTO product : compoundOrder.getProducts()){
+                ProductService.incrementProduct(product.getId(), product.getQuantity());
             }
 
             //2 - Refund for all other users in compound order and return their products to stock
             for(SimpleOrder o : compoundOrder.getOrders()){
                 paymentService.refund(o.getUserID(), o.getTotalPrice());
-                for(Product product : o.getProducts()){
-                    ProductService.incrementProduct(product.getId(), 1);
+                for(ProductDTO product : o.getProducts()){
+                    ProductService.incrementProduct(product.getId(), product.getQuantity());
                 }
                 changeOrderStatus(o, OrderState.CANCELED);
             }

@@ -4,7 +4,9 @@ import com.APIX.CustomRepository;
 import com.APIX.order.model.CompoundOrder;
 import com.APIX.order.model.Order;
 import com.APIX.order.model.SimpleOrder;
+import com.APIX.product.dao.ProductDAO;
 import com.APIX.product.model.Product;
+import com.APIX.product.model.ProductDTO;
 import com.APIX.product.service.ProductService;
 import com.APIX.user.model.User;
 import com.APIX.user.service.UserService;
@@ -22,13 +24,12 @@ public class OrderDAO implements CustomRepository<Order, Integer> {
     }
 
     private static void initDummyDataOrder() {
-        Product dummyProduct1 = new Product(1L, "Dummy Product 1", "Vendor 1", "Electronics", 99.99, 10);
-        Product dummyProduct2 = new Product(2L, "Dummy Product 2", "Vendor 2", "Clothing", 49.99, 20);
+        ProductDTO p1 = new ProductDTO(1L,2);
+        ProductDTO p2 = new ProductDTO(2L,3);
 
-        List<Product> dummyProducts = new ArrayList<>();
-        dummyProducts.add(dummyProduct1);
-        dummyProducts.add(dummyProduct2);
-
+        List<ProductDTO> dummyProducts = new ArrayList<>();
+        dummyProducts.add(p1);
+        dummyProducts.add(p2);
 
         SimpleOrder dummyOrder = new SimpleOrder(1, dummyProducts, 5.0, 1L);
         SimpleOrder dummyOrder2 = new SimpleOrder(2, dummyProducts, 5.0, 2L);
