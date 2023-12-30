@@ -46,7 +46,8 @@ public class SimpleOrderManager extends OrderManager {
             paymentService.refund(order.getUserID(), order.getTotalPrice());
             //Send notification for cancellation
             changeOrderStatus(order, OrderState.CANCELED);
-            OrderService.updateOrder(order);
+//            OrderService.updateOrder(order);
+            OrderService.deleteOrder(order.getId());
             return true;
         }
 
@@ -59,7 +60,7 @@ public class SimpleOrderManager extends OrderManager {
             long diffInMinutes = duration.toSeconds();
             if(diffInMinutes < 5){
                 paymentService.refund(order.getUserID(), order.getShippingFee());
-                changeOrderStatus(order, OrderState.CANCELED);
+                changeOrderStatus(order, OrderState.CANCELEDSHIPPING);
                 OrderService.updateOrder(order);
                 return true;
             }
@@ -74,6 +75,7 @@ public class SimpleOrderManager extends OrderManager {
             if(paymentService.payOrder(order.getUserID(), order.getShippingFee())){
                 changeOrderStatus(order, OrderState.SHIPPED);
                 order.setOrderDateTime(LocalDateTime.now());
+
                 OrderService.updateOrder(order);
                 return true;
             } else return false;

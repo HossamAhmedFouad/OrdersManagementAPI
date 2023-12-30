@@ -3,7 +3,7 @@ package com.APIX.order.service;
 import com.APIX.CustomRepository;
 import com.APIX.order.Manager.OrderManager;
 import com.APIX.order.model.Order;
-
+import com.APIX.order.model.OrderState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +54,12 @@ public class OrderService {
     }
 
 
-    public static void deleteOrder(int orderId) {
+    public static boolean deleteOrder(int orderId) {
+        Order order = getOrderById(orderId);
+        if (order.getStatus()!=OrderState.PLACED){
+            return false;
+        }
         orderDAO.delete(orderId);
+        return true;
     }
 }
