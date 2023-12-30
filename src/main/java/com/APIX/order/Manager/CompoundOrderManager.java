@@ -9,10 +9,8 @@ import com.APIX.order.model.SimpleOrder;
 import com.APIX.order.service.OrderService;
 import com.APIX.payment.service.OrderPayment;
 import com.APIX.payment.service.PaymentService;
-import com.APIX.product.model.Product;
 import com.APIX.product.model.ProductDTO;
 import com.APIX.product.service.ProductService;
-import org.springframework.cglib.core.Local;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -22,8 +20,8 @@ public class CompoundOrderManager extends OrderManager {
     PaymentService paymentService = new OrderPayment();
 
     CompoundOrderManager(){
-        this.notificationObservers.add(new SMSFactory());
-        this.notificationObservers.add(new EmailFactory());
+        addObserver(new SMSFactory());
+        addObserver(new EmailFactory());
     }
 
     @Override
@@ -38,7 +36,7 @@ public class CompoundOrderManager extends OrderManager {
             }
         }else return false;
 
-        changeOrderStatus(compoundOrder, OrderState.PLACED);
+        changeOrderStatus(compoundOrder, OrderState.READY);
         for(Order o : compoundOrder.getOrders()){
             if(paymentService.payOrder(o.getUserID(), o.getTotalPrice())){
                 for(ProductDTO product : o.getProducts()){
@@ -46,7 +44,7 @@ public class CompoundOrderManager extends OrderManager {
                         return false;
                     }
                 }
-                changeOrderStatus(o, OrderState.PLACED);
+                changeOrderStatus(o, OrderState.READY);
 
             } else return false;
         }
@@ -58,68 +56,62 @@ public class CompoundOrderManager extends OrderManager {
     @Override
     public boolean cancel(Order order) {
 
-        if(order.getStatus() == OrderState.CANCELED){
-            return false;
-        }
-
         CompoundOrder compoundOrder = (CompoundOrder) order;
 
-        if(order.getStatus() == OrderState.PLACED){
+        if(order.getStatus() == OrderState.READY){
             //1 - Refund for Compound Order Owner and return products to stock
-            paymentService.refund(order.getUserID(), order.getTotalPrice());
-            changeOrderStatus(compoundOrder, OrderState.CANCELED);
-            for(ProductDTO product : compoundOrder.getProducts()){
-                ProductService.incrementProduct(product.getId(), product.getQuantity());
-            }
+            if(paymentService.refund(order.getUserID(), order.getTotalPrice())){
+                for(ProductDTO product : compoundOrder.getProducts()){
+                    if(!ProductService.incrementProduct(product.getId(), product.getQuantity())) return false;
+                }
+                changeOrderStatus(compoundOrder, OrderState.CANCELED);
+            }else return false;
 
             //2 - Refund for all other users in compound order and return their products to stock
             for(SimpleOrder o : compoundOrder.getOrders()){
-                paymentService.refund(o.getUserID(), o.getTotalPrice());
-                for(ProductDTO product : o.getProducts()){
-                    ProductService.incrementProduct(product.getId(), product.getQuantity());
-                }
-                changeOrderStatus(o, OrderState.CANCELED);
+                if(paymentService.refund(o.getUserID(), o.getTotalPrice())){
+                    for(ProductDTO product : o.getProducts()){
+                        if(!ProductService.incrementProduct(product.getId(), product.getQuantity())) return false;
+                    }
+                    changeOrderStatus(o, OrderState.CANCELED);
+                }else return false;
             }
-
-            OrderService.updateOrder(compoundOrder);
-
+            OrderService.deleteOrder(compoundOrder.getId());
             return true;
         }
 
 
-        if(order.getStatus() == OrderState.SHIPPED){
+        if(order.getStatus() == OrderState.SHIPPING){
 
             Duration duration = Duration.between(order.getOrderDateTime(), LocalDateTime.now());
             long diffInMinutes = duration.toMinutes();
             if(diffInMinutes < 1){
                 //1 - Refund Shipping Fee for Compound Order Owner
-                paymentService.refund(compoundOrder.getUserID(), compoundOrder.getShippingFee());
+                if(!paymentService.refund(compoundOrder.getUserID(), compoundOrder.getShippingFee())) return false;
+                changeOrderStatus(compoundOrder, OrderState.READY);
                 //2 - Refund Shipping Fee for other users in current compound order
                 for(SimpleOrder o : compoundOrder.getOrders()){
-                    paymentService.refund(o.getUserID(), compoundOrder.getShippingFee());
-                }
-                changeOrderStatus(compoundOrder, OrderState.CANCELED);
-                for(SimpleOrder o : compoundOrder.getOrders()){
-                    changeOrderStatus(o, OrderState.CANCELED);
+                    if(!paymentService.refund(o.getUserID(), compoundOrder.getShippingFee())) return false;
+                    changeOrderStatus(o, OrderState.READY);
                 }
                 OrderService.updateOrder(compoundOrder);
                 return true;
             }
-            return false;
         }
+
         return false;
     }
 
     @Override
     public boolean shipOrder(Order order) {
-        if(order.getStatus() == OrderState.PLACED){
+        if(order.getStatus() == OrderState.READY || order.getStatus() == OrderState.PLACED){
             CompoundOrder compoundOrder = (CompoundOrder) order;
             if(!paymentService.payOrder(compoundOrder.getUserID(), compoundOrder.getShippingFee())) return false;
             for(SimpleOrder simpleOrder : compoundOrder.getOrders()){
                 if(!paymentService.payOrder(simpleOrder.getUserID(), compoundOrder.getShippingFee())) return false;
-                changeOrderStatus(simpleOrder, OrderState.SHIPPED);
+                changeOrderStatus(simpleOrder, OrderState.SHIPPING);
             }
-            changeOrderStatus(compoundOrder, OrderState.SHIPPED);
+            changeOrderStatus(compoundOrder, OrderState.SHIPPING);
             compoundOrder.setOrderDateTime(LocalDateTime.now());
             OrderService.updateOrder(compoundOrder);
             return true;

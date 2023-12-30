@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-@Repository("notificationDAS")
+@Repository("notificationDAO")
 public class NotificationsDAO implements CustomRepository<Notification, Long> {
     List<Notification> notificationDB = new ArrayList<>();
 

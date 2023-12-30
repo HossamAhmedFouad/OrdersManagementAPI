@@ -16,51 +16,44 @@ public class UserController {
     @PostMapping
     public ResponseEntity<String> addUser(@RequestBody User user) {
        if(UserService.addUser(user)){
-           return ResponseEntity.status(HttpStatus.CREATED).build();
+           return ResponseEntity.status(HttpStatus.CREATED).body("User has been created successfully");
        }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid User");
     }
 
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {
-        try {
-            List<User>users=UserService.getUsers();
-            if(users!=null){
-                return  ResponseEntity.ok(users);
-            }
-            return ResponseEntity.noContent().build();
-        }catch (Exception ex){
-            return ResponseEntity.internalServerError().build();
-        }
+        return ResponseEntity.ok(UserService.getUsers());
     }
 
     @DeleteMapping(path = "{id}")
-    public ResponseEntity<Void> removeUserById(@PathVariable("id") long id) {
+    public ResponseEntity<String> removeUserById(@PathVariable("id") long id) {
         if(UserService.removeUserById(id)){
-            ResponseEntity.noContent().build();
+            return ResponseEntity.status(HttpStatus.OK).body("User has been deleted successfully");
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid User ID");
 
     }
 
     @GetMapping(path = "{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
-        User user=UserService.getUserById(id);
-        if(user!=null){
+    public ResponseEntity<?> getUserById(@PathVariable("id") Long id) {
+        User user = UserService.getUserById(id);
+        if(user != null){
             return ResponseEntity.ok(user);
         }
-        return ResponseEntity.notFound().build();
-
-
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid User ID");
     }
 
     @PutMapping(path = "{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") long id ,@RequestBody User user) {
-        User updatedUser=UserService.updateUser(id,user);
-        if(updatedUser!=null){
-            return ResponseEntity.ok(updatedUser);
+    public ResponseEntity<String> updateUser(@PathVariable("id") long id ,@RequestBody User user) {
+        User foundUser = UserService.getUserById(id);
+        if(foundUser == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid User ID");
+        user.setId(id);
+        if(UserService.updateUser(user)){
+            return ResponseEntity.ok("User has been updated successfully");
         }
-        return ResponseEntity.notFound().build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User could not be updated");
 
     }
 }

@@ -4,21 +4,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Product {
+
+    private static Long nextID = 1L;
     private Long id;
     private String name;
     private String vendor;
-    private String Category; //TODO: change string into ENUM
+    private String Category;
     private double price;
     private int count;
 
     public Product(
-                   @JsonProperty("id") Long id,
                    @JsonProperty("name") String name,
                    @JsonProperty("vendor") String vendor,
                    @JsonProperty("category") String category,
                    @JsonProperty("price") double price,
                    @JsonProperty("count") int count) {
-        this.id = id;
+        this.id = nextID++;
         this.name = name;
         this.vendor = vendor;
         Category = category;

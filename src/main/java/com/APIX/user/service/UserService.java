@@ -1,7 +1,7 @@
 package com.APIX.user.service;
 
 
-import com.APIX.user.dao.UserDAO;
+import com.APIX.CustomRepository;
 import com.APIX.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,31 +10,30 @@ import java.util.List;
 @Service
 public class UserService {
 
-    static UserDAO userDAO;
+    static CustomRepository<User, Long> userDAO;
     @Autowired
-    public UserService( UserDAO userDAO) {
+    public UserService( CustomRepository<User, Long> userDAO) {
         UserService.userDAO = userDAO;
     }
     public static boolean addUser(User user) {
-        return userDAO.addUser(user);
+        return userDAO.save(user);
     }
 
 
     public static List<User> getUsers() {
-        return userDAO.getUsers();
+        return userDAO.getAll();
     }
 
 
     public static boolean removeUserById(long id) {
-        return userDAO.removeUserById(id);
+        return userDAO.delete(id);
     }
 
     public static User getUserById(long id) {
-        return userDAO.getUserById(id);
+        return userDAO.getById(id);
     }
 
-    public static User updateUser(long id , User user) {
-        return userDAO.updateUser(id,user);
-
+    public static boolean updateUser(User user) {
+        return userDAO.update(user);
     }
 }

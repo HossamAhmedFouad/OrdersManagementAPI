@@ -12,8 +12,8 @@ import java.util.List;
 public class CompoundOrder extends Order{
 
     private List<SimpleOrder> orders = new ArrayList<>();
-    public CompoundOrder(int id, List<ProductDTO> products, Long userID, List<SimpleOrder> orders) {
-        super(id, products, userID);
+    public CompoundOrder(List<ProductDTO> products, Long userID, List<SimpleOrder> orders) {
+        super(products, userID);
         this.orders = orders;
     }
     public void addOrder (SimpleOrder order) {

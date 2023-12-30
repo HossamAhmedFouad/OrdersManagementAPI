@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository("OrderDAO")
-public class OrderDAO implements CustomRepository<Order, Integer> {
+public class OrderDAO implements CustomRepository<Order, Long> {
     private static final List<Order> orders = new ArrayList<>();
 
     static {
@@ -31,10 +31,10 @@ public class OrderDAO implements CustomRepository<Order, Integer> {
         dummyProducts.add(p1);
         dummyProducts.add(p2);
 
-        SimpleOrder dummyOrder = new SimpleOrder(1, dummyProducts,  1L);
-        SimpleOrder dummyOrder2 = new SimpleOrder(2, dummyProducts, 2L);
-        SimpleOrder dummyOrder3 = new SimpleOrder(3, dummyProducts, 3L);
-        SimpleOrder dummyOrder4 = new SimpleOrder(4, dummyProducts, 4L);
+        SimpleOrder dummyOrder = new SimpleOrder(dummyProducts,  1L);
+        SimpleOrder dummyOrder2 = new SimpleOrder(dummyProducts, 2L);
+        SimpleOrder dummyOrder3 = new SimpleOrder(dummyProducts, 3L);
+        SimpleOrder dummyOrder4 = new SimpleOrder(dummyProducts, 4L);
 
         orders.add(dummyOrder);
         List<SimpleOrder>friendsOrders = new ArrayList<>();
@@ -43,25 +43,19 @@ public class OrderDAO implements CustomRepository<Order, Integer> {
         friendsOrders.add(dummyOrder3);
         friendsOrders.add(dummyOrder4);
 
-        Order dummyCompound = new CompoundOrder(5, dummyProducts, 1L, friendsOrders);
+        Order dummyCompound = new CompoundOrder( dummyProducts, 1L, friendsOrders);
         orders.add(dummyCompound);
     }
 
     @Override
     public boolean save(Order order) {
-        if (order == null) {
-            throw new IllegalArgumentException("Order cannot be null.");
-        }
-        if (order.getTotalPrice() > UserService.getUserById(order.getUserID()).getBalance()) {
-            throw new IllegalArgumentException("You have not enough balance");
-        }
         return orders.add(order);
     }
 
     @Override
-    public Order getById(Integer orderId) {
+    public Order getById(Long orderId) {
         for (Order order : orders) {
-            if (order.getId() == orderId) {
+            if (order.getId().equals(orderId)) {
                 return order;
             }
         }
@@ -75,21 +69,20 @@ public class OrderDAO implements CustomRepository<Order, Integer> {
 
     @Override
     public boolean update(Order order) {
-        if (order == null) {
-            throw new IllegalArgumentException("Order cannot be null.");
+        for(int i = 0; i < orders.size(); i++){
+            if(orders.get(i).getId().equals(order.getId())){
+                order.setOrderDateTime(orders.get(i).getOrderDateTime());
+                order.setUserID(orders.get(i).getUserID());
+                order.setStatus(orders.get(i).getStatus());
+                orders.set(i, order);
+                return true;
+            }
         }
-
-        int index = orders.indexOf(order);
-        if (index >= 0) {
-            orders.set(index, order);
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
     @Override
-    public boolean delete(Integer orderId) {
-        return orders.removeIf(order -> order.getId() == orderId);
+    public boolean delete(Long orderId) {
+        return orders.removeIf(order -> order.getId().equals(orderId));
     }
 }

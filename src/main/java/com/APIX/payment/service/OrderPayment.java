@@ -16,8 +16,7 @@ public class OrderPayment implements PaymentService{
             double balance = user.getBalance();
             balance -= amount;
             user.setBalance(balance);
-            UserService.updateUser(id, user);
-            return true;
+            return UserService.updateUser(user);
         }
         return false;
     }
@@ -27,7 +26,6 @@ public class OrderPayment implements PaymentService{
         User user = UserService.getUserById(id);
         if(user == null) return false;
         user.setBalance(user.getBalance() + amount);
-        UserService.updateUser(id, user);
-        return true;
+        return UserService.updateUser(user);
     }
 }

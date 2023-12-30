@@ -5,7 +5,6 @@ package com.APIX.order.model;
 import com.APIX.product.model.Product;
 import com.APIX.product.model.ProductDTO;
 import com.APIX.product.service.ProductService;
-import com.APIX.user.model.User;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -18,21 +17,20 @@ import java.util.List;
         @JsonSubTypes.Type(value = CompoundOrder.class, name = "compoundOrder"),
 })
 public abstract class Order {
-    private final int id;
+    private static Long nextID = 1L;
+    private Long id;
     private final List<ProductDTO> products;
     private double shippingFee;
     private Long userID;
     private LocalDateTime orderDateTime;
 
     private OrderState status;
-    public Order(int id, List<ProductDTO> products, Long userID) {
+    public Order(List<ProductDTO> products, Long userID) {
 
-
-        if (id <= 0 || products == null) {
+        if (products == null) {
             throw new IllegalArgumentException("Invalid input parameters for order creation.");
         }
-
-        this.id = id;
+        this.id = nextID++;
         this.products = products;
         this.userID = userID;
         this.orderDateTime = LocalDateTime.now();
@@ -41,9 +39,13 @@ public abstract class Order {
     public Long getUserID() {
         return userID;
     }
-    public int getId() {
+    public void setUserID(Long userID){
+        this.userID = userID;
+    }
+    public Long getId() {
         return id;
     }
+    public void setID(Long id){this.id = id;}
     public List<ProductDTO> getProducts() {
         return products;
     }
@@ -58,14 +60,6 @@ public abstract class Order {
     public void setStatus(OrderState status) {
         this.status = status;
     }
-//    public double getTotalPrice() {
-//        double totalPrice = 0;
-//        for (Product product : getProducts()) {
-//            totalPrice += product.getPrice();
-//        }
-//        return totalPrice;
-//    }
-
     public double getTotalPrice() {
         double totalPrice = 0;
         for (ProductDTO lineItem : getProducts()) {

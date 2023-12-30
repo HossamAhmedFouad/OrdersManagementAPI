@@ -9,5 +9,4 @@ public interface PaymentService {
 
     boolean refund(Long id, double amount);
 
-//    boolean refund();
 }

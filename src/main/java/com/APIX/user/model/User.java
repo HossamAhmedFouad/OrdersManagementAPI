@@ -2,7 +2,8 @@ package com.APIX.user.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
-    private long id;
+    private static Long nextID = 1L;
+    private Long id;
     private String username;
     private String email;
     private String password;
@@ -22,14 +23,13 @@ public class User {
     private Language language;
 
     public User(
-                @JsonProperty("id") Long id,
                 @JsonProperty("username") String username,
                 @JsonProperty("email") String email,
                 @JsonProperty("password") String password,
                 @JsonProperty("balance") double balance,
                 @JsonProperty("address") String address,
                 @JsonProperty("phoneNumber") String phoneNumber) {
-        this.id = id;
+        this.id = nextID++;
         this.username = username;
         this.email = email;
         this.password = password;

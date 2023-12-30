@@ -1,7 +1,7 @@
 package com.APIX.notification.Factory;
 
+import com.APIX.ObserverPattern.Observer;
 import com.APIX.notification.model.Notification;
-import com.APIX.notification.model.SMSNotification;
 import com.APIX.notification.service.NotificationService;
 import com.APIX.notification.service.NotificationStat;
 import com.APIX.order.model.Order;
@@ -14,22 +14,25 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class NotificationFactory {
+public abstract class NotificationFactory implements Observer {
     Map<OrderState, Map<Language, String>> stateTemplate = new HashMap<>();
     Map<Language, String> placementLang = new HashMap<>();
-    Map<Language, String>shipmentLang = new HashMap<>();
-    Map<Language, String>cancellationLang = new HashMap<>();
+    Map<Language, String> readyLang = new HashMap<>();
+    Map<Language, String> shippingLang = new HashMap<>();
+    Map<Language, String> cancellationLang = new HashMap<>();
+
     String notificationText;
 
     public static String fillPlaceholders(String template, Object... args) {
         return String.format(template, args);
     }
-    public boolean notify(Language language, Order order) {
-        Notification notification=createTemplate(language,order);
-         NotificationService.addNotificationToQueue(notification);
-         return true;
 
+    @Override
+    public void update(Language language, Order order){
+        Notification notification = createTemplate(language,order);
+        NotificationService.addNotificationToQueue(notification);
     }
+
     Notification createTemplate(Language lang, Order order) {
         User user= UserService.getUserById(order.getUserID());
         notificationText = getStateTemplate(lang,order.getStatus());

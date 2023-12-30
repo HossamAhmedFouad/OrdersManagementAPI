@@ -15,7 +15,7 @@ import java.util.List;
 public class OrderController{
     private OrderManager orderManager;
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<String> addOrder(@RequestBody Order order){
         orderManager = OrderManager.createManager(order);
         if(orderManager.placeOrder(order)){
@@ -24,10 +24,10 @@ public class OrderController{
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Order Placing Failed");
     }
 
-//    cancel shipping
     @PutMapping("/cancel/{id}")
-    public ResponseEntity<String> cancelOrder(@PathVariable("id") int orderID){
+    public ResponseEntity<String> cancelOrder(@PathVariable("id") Long orderID){
         Order order = OrderService.getOrderById(orderID);
+        if(order == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid Order ID");
         orderManager = OrderManager.createManager(order);
         if(orderManager.cancel(order)){
             return ResponseEntity.status(HttpStatus.OK).body("Order Has Been Cancelled Successfully");
@@ -37,8 +37,9 @@ public class OrderController{
     }
 
     @PutMapping("/ship/{id}")
-    public ResponseEntity<String> shipOrder(@PathVariable("id") int orderID){
+    public ResponseEntity<String> shipOrder(@PathVariable("id") Long orderID){
         Order order = OrderService.getOrderById(orderID);
+        if(order == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid Order ID");
         orderManager = OrderManager.createManager(order);
         if(orderManager.shipOrder(order)){
             return ResponseEntity.status(HttpStatus.OK).body("Order Has Been Shipped Successfully");
@@ -48,22 +49,34 @@ public class OrderController{
     }
 
 
-    @GetMapping("/{orderId}")
-    public Order getOrderById(@PathVariable("orderId") int orderId) {
-        return OrderService.getOrderById(orderId);
+    @GetMapping( path = "{orderId}")
+    public ResponseEntity<?> getOrderById(@PathVariable("orderId") Long orderId) {
+        Order order = OrderService.getOrderById(orderId);
+        if(order == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid Order ID");
+        return ResponseEntity.status(HttpStatus.OK).body(order);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<Order> getAllOrders() {
         return OrderService.getAllOrders();
     }
 
-    @PutMapping("/update")
-    public void updateOrder(@RequestBody Order order) {
-        OrderService.updateOrder(order);
+    @PutMapping(path = "{orderId}")
+    public ResponseEntity<String> updateOrder(@PathVariable("orderId") Long orderId, @RequestBody Order order) {
+        if(OrderService.getOrderById(orderId) == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid Order ID");
+        order.setID(orderId);
+        if(OrderService.updateOrder(order)){
+            return ResponseEntity.status(HttpStatus.OK).body("Order has been updated successfully");
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Order Updating Failed");
+        }
     }
-    @DeleteMapping("/delete/{orderId}")
-    public void deleteOrder(@PathVariable int orderId) {
-        OrderService.deleteOrder(orderId);
+    @DeleteMapping( path = "{orderId}")
+    public ResponseEntity<String> deleteOrder(@PathVariable Long orderId) {
+        if(OrderService.deleteOrder(orderId)){
+            return ResponseEntity.status(HttpStatus.OK).body("Order has been deleted successfully");
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order deletion failed");
+        }
     }
 }

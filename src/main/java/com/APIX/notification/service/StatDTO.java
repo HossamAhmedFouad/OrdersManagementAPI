@@ -7,10 +7,7 @@ public class StatDTO {
         this.mostNotified = mostNotified;
         this.mostUsedTemplate = mostUsedTemplate;
     }
-
-    public StatDTO() {
-
-    }
+    public StatDTO() {}
 
     public String getMostNotified() {
         return mostNotified;

@@ -18,12 +18,11 @@ public class ProductController {
     private  ProductService productService;
 
     @PostMapping
-    public ResponseEntity<Void> addProduct(@RequestBody Product product) {
-        boolean added = ProductService.addProduct(product);
-        if(added){
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<String> addProduct(@RequestBody Product product) {
+        if(ProductService.addProduct(product)){
+            return ResponseEntity.status(HttpStatus.CREATED).body("Product Has Been Successfully Created");
         }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Product creation failed");
         }
     }
 
@@ -47,22 +46,23 @@ public class ProductController {
 
 
     @DeleteMapping(path = "{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id) {
-        boolean deleted = ProductService.deleteProduct(id);
-        if (deleted) {
-            return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id) {
+        if (ProductService.deleteProduct(id)) {
+            return ResponseEntity.status(HttpStatus.OK).body("Product Has Been Deleted Successfully");
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid product ID");
         }
     }
 
     @PutMapping(path = "{id}")
-    public ResponseEntity<Void> updateProduct(@RequestBody Product product) {
-        boolean updated = ProductService.updateProduct(product);
-        if (updated) {
-            return ResponseEntity.noContent().build();
+    public ResponseEntity<String> updateProduct(@PathVariable("id") Long id, @RequestBody Product updatedProduct) {
+        if(ProductService.getProduct(id) == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid product ID");
+        updatedProduct.setId(id);
+
+        if (ProductService.updateProduct(updatedProduct)) {
+            return ResponseEntity.status(HttpStatus.OK).body("Product has been updated successfully");
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid product");
         }
     }
 

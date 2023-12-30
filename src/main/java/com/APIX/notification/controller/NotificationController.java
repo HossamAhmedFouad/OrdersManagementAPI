@@ -21,12 +21,12 @@ public class NotificationController {
     NotificationStat notificationStat;
 
     @PostMapping
-    public ResponseEntity<Void> addNotification(@RequestBody Notification notification) {
+    public ResponseEntity<String> addNotification(@RequestBody Notification notification) {
         boolean added = NotificationService.addNotification(notification);
         if(added){
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.CREATED).body("Notification has been added successfully");
         }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error, could not add notification");
         }
     }
 
@@ -54,22 +54,23 @@ public class NotificationController {
 
 
     @DeleteMapping(path = "{id}")
-    public ResponseEntity<Void> deleteNotification(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteNotification(@PathVariable("id") Long id) {
         boolean deleted = NotificationService.deleteNotification(id);
         if (deleted) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.status(HttpStatus.OK).body("Notification has been deleted successfully");
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid Notification ID");
         }
     }
 
     @PutMapping(path = "{id}")
-    public ResponseEntity<Void> updateNotification(@RequestBody Notification notification) {
-        boolean updated = NotificationService.updateNotification(notification);
-        if (updated) {
-            return ResponseEntity.noContent().build();
+    public ResponseEntity<String> updateNotification(@PathVariable("id") Long id, @RequestBody Notification notification) {
+        if(NotificationService.getNotification(id) == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid notification ID");
+        notification.setId(id);
+        if (NotificationService.updateNotification(notification)) {
+            return ResponseEntity.status(HttpStatus.OK).body("Notification has been updated successfully");
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Notification");
         }
     }
 
