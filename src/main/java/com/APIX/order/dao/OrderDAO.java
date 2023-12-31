@@ -4,12 +4,7 @@ import com.APIX.CustomRepository;
 import com.APIX.order.model.CompoundOrder;
 import com.APIX.order.model.Order;
 import com.APIX.order.model.SimpleOrder;
-import com.APIX.product.dao.ProductDAO;
-import com.APIX.product.model.Product;
 import com.APIX.product.model.ProductDTO;
-import com.APIX.product.service.ProductService;
-import com.APIX.user.model.User;
-import com.APIX.user.service.UserService;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

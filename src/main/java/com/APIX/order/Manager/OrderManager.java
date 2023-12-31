@@ -1,7 +1,6 @@
 package com.APIX.order.Manager;
 import com.APIX.ObserverPattern.Observer;
 import com.APIX.ObserverPattern.Subject;
-import com.APIX.notification.Factory.NotificationFactory;
 import com.APIX.order.model.Order;
 import com.APIX.order.model.OrderState;
 import com.APIX.order.model.SimpleOrder;

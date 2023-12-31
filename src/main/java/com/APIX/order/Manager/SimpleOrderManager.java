@@ -3,12 +3,17 @@ import com.APIX.notification.Factory.EmailFactory;
 import com.APIX.notification.Factory.SMSFactory;
 import com.APIX.order.model.Order;
 import com.APIX.order.model.OrderState;
-import com.APIX.order.model.SimpleOrder;
 import com.APIX.order.service.OrderService;
 import com.APIX.payment.service.OrderPayment;
+<<<<<<< Updated upstream
 import com.APIX.product.model.ProductDTO;
 import com.APIX.product.service.ProductService;
 
+=======
+import com.APIX.payment.service.PaymentService;
+import com.APIX.product.model.ProductDTO;
+import com.APIX.product.service.ProductService;
+>>>>>>> Stashed changes
 import java.time.Duration;
 import java.time.LocalDateTime;
 

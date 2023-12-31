@@ -39,7 +39,7 @@ public class EmailFactory extends NotificationFactory {
 
     Notification createNotification(Language lang,String notificationText,OrderState orderState,User user ){
         return new EmailNotification(lang,notificationText, orderState,user.getEmail());
-    };
+    }
 
 
 }

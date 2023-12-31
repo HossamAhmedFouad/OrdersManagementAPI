@@ -41,6 +41,6 @@ public class SMSFactory extends NotificationFactory {
 
     Notification createNotification(Language lang,String notificationText,OrderState orderState,User user ){
         return new SMSNotification(lang, notificationText, orderState,user.getPhoneNumber());
-    };
+    }
 
 }

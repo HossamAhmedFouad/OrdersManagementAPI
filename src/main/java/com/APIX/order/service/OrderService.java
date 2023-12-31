@@ -15,7 +15,6 @@ import java.util.List;
 
 @Service
 public class OrderService {
-//    @Autowired
     private static CustomRepository<Order, Long> orderDAO;
     @Autowired
     public OrderService(CustomRepository<Order, Long> orderDAO){
