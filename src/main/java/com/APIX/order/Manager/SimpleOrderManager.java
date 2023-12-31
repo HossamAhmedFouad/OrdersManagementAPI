@@ -5,15 +5,12 @@ import com.APIX.order.model.Order;
 import com.APIX.order.model.OrderState;
 import com.APIX.order.service.OrderService;
 import com.APIX.payment.service.OrderPayment;
-<<<<<<< Updated upstream
 import com.APIX.product.model.ProductDTO;
 import com.APIX.product.service.ProductService;
-
-=======
 import com.APIX.payment.service.PaymentService;
 import com.APIX.product.model.ProductDTO;
 import com.APIX.product.service.ProductService;
->>>>>>> Stashed changes
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -57,8 +54,8 @@ public class SimpleOrderManager extends OrderManager {
 
         if(order.getStatus() == OrderState.SHIPPING){
             Duration duration = Duration.between(order.getOrderDateTime(), LocalDateTime.now());
-            long diffInSeconds = duration.toSeconds();
-            if(diffInSeconds < 10){
+            long diffInMinutes = duration.toMinutes();
+            if(diffInMinutes < 1){
                 if(paymentService.refund(order.getUserID(), order.getShippingFee())){
                     changeOrderStatus(order, OrderState.READY);
                     OrderService.updateOrder(order);

@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class CompoundOrderManager extends OrderManager {
 
     public CompoundOrderManager(){
-         this.paymentService = new OrderPayment();
+        this.paymentService = new OrderPayment();
         addObserver(new SMSFactory());
         addObserver(new EmailFactory());
     }
