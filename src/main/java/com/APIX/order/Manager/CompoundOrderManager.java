@@ -8,7 +8,6 @@ import com.APIX.order.model.OrderState;
 import com.APIX.order.model.SimpleOrder;
 import com.APIX.order.service.OrderService;
 import com.APIX.payment.service.OrderPayment;
-import com.APIX.payment.service.PaymentService;
 import com.APIX.product.model.ProductDTO;
 import com.APIX.product.service.ProductService;
 
@@ -17,9 +16,9 @@ import java.time.LocalDateTime;
 
 
 public class CompoundOrderManager extends OrderManager {
-    PaymentService paymentService = new OrderPayment();
 
     public CompoundOrderManager(){
+         this.paymentService = new OrderPayment();
         addObserver(new SMSFactory());
         addObserver(new EmailFactory());
     }

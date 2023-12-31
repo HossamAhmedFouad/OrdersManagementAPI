@@ -6,19 +6,15 @@ import com.APIX.order.model.OrderState;
 import com.APIX.order.model.SimpleOrder;
 import com.APIX.order.service.OrderService;
 import com.APIX.payment.service.OrderPayment;
-import com.APIX.payment.service.PaymentService;
-import com.APIX.product.model.Product;
 import com.APIX.product.model.ProductDTO;
 import com.APIX.product.service.ProductService;
-import com.APIX.user.service.UserService;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class SimpleOrderManager extends OrderManager {
-    PaymentService paymentService = new OrderPayment();
-
     public SimpleOrderManager(){
+        this.paymentService = new OrderPayment();
         addObserver(new SMSFactory());
         addObserver(new EmailFactory());
     }

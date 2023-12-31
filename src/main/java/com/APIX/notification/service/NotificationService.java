@@ -12,7 +12,6 @@ import java.util.List;
 
 @Service
 public class NotificationService {
-    @Autowired
     private static CustomRepository<Notification, Long> notificationDas;
     @Autowired
     public NotificationService(CustomRepository<Notification, Long> notificationDas){
@@ -33,10 +32,9 @@ public class NotificationService {
         return notificationDas.save(notification);
     }
 
-    public static boolean addNotificationToQueue(Notification notification){
+    public static void addNotificationToQueue(Notification notification){
         NotificationsDAO notificationsDAO = (NotificationsDAO) notificationDas;
         notificationsDAO.addNotificationToQueue(notification);
-        return true;
     }
 
     public static List<Notification> getNotifications(){

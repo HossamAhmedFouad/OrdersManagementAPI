@@ -5,6 +5,7 @@ import com.APIX.notification.Factory.NotificationFactory;
 import com.APIX.order.model.Order;
 import com.APIX.order.model.OrderState;
 import com.APIX.order.model.SimpleOrder;
+import com.APIX.payment.service.PaymentService;
 import com.APIX.user.model.Language;
 import com.APIX.user.service.UserService;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 public abstract class OrderManager implements Subject {
     protected List<Observer> notificationObservers = new ArrayList<>();
+    PaymentService paymentService;
 
     public abstract boolean placeOrder(Order order);
     public abstract boolean cancel(Order order);
